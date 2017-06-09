@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>告警详情</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style1.css">
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <style>
+        .header-section{
+            background-color: #65CEA7;
+        }
+        .wrapper .panel-heading{
+            background-color: #65CEA7;
+            color:#fff;
+        }
+        hr{
+            margin: 0;
+        }
+        #details thead tr th a{
+            color:#F9243F;
+            font-weight: bold;
+        }
+        .mmsg{
+            background: #333;
+            color:#fff;
+            padding:10px;
+        }
+        .msg{
+            padding: 0;
+         }
+    </style>
+
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <h4><a href="index.html"><span>Lumino</span>Admin</a></h4>
+        </div>
+
+        <!--<div class="logo-icon text-center">
+            <a href="index.html"><img src="images/logo_icon.png" alt=""></a>
+        </div>-->
+        <!--logo and iconic logo end-->
+        <div class="left-side-inner">
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list active">
+                    <a href=""><i class="fa fa-laptop"></i> <span>告警信息管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li class="active"><a onclick="indexlists();">告警信息列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list">
+                    <a><i class="fa fa-book"></i> <span>我的监控项</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a onclick="myalarm();">所有客户端列表</a></li>
+                        <!--<li><a onclick="alarmConfig();">告警项配置</a></li>
+                        <li><a onclick="collect();">采集项配置</a></li>-->
+                    </ul>
+                </li>
+                <li class="menu-list">
+                    <a onclick="collect();"><i class="fa fa-dashboard"></i> <span>采集项配置</span></a>
+                </li>
+            </ul>
+            <!--sidebar nav end-->
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+            <form class="searchform" action="index.html" method="post">
+                <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+            </form>
+            <!--search end-->
+
+            <!--notification menu start  右侧登录信息-->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a  href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/photos/user-avatar.png" alt="" />
+                            <span id="uname">登录</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul id="user" class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#" disabled="true"><i class="fa fa-user"></i>修改密码</a></li>
+                            <!--<li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>-->
+                            <li><a disabled="true" onclick="loginOut();"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h1>告警信息详情</h1>
+        </div>
+        <!-- page heading end-->
+        <hr/>
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel ">
+                        <div class="panel-heading panel-blue">告警信息详情</div>
+                        <div class="panel-body">
+                            <a onclick="indexlists();" class="back-btn btn btn-success"><span class="glyphicon glyphicon-share"></span>返回</a><br>
+
+                            <table class="table table-striped table-hover" id="details">
+                                <!--<thead>
+                                <tr>
+                                    <th>采集项</th>
+                                    <th><a href="alarm-configuration.html" class="btn-link">alarmMessage</a></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>-->
+                            </table>
+                            <ul id="footer" class="pagination">
+                                <!--<li><a href="">首页</a></li>
+                                <li class="disabled"><a href="">上一页</a></li>
+                                <li class="active"><a href="">1</a></li>
+                                <li class="disabled"><a href="">下一页</a></li>
+                                <li><a href="">尾页</a></li>
+                                <li id="count"></li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!--common scripts for all pages-->
+
+<script src="js/scripts.js"></script>
+
+<script src="js/baiduTemplate.js"></script>
+
+<script id="t:table" type="text/html">
+    <thead>
+    <tr>
+        <th>告警项</th>
+        <th><a onclick="alarmConfig('<@=data.clientInfo.id@>');" class="btn-link"><@=data.alarmMessage@></a></th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>地点</td>
+            <td><@=data.clientInfo.address@></td>
+        </tr>
+        <tr>
+            <td>告警客户端id</td>
+            <td><@=data.clientInfo.id@></td>
+        </tr>
+        <tr >
+            <td colspan="2" class="msg">
+                <div class="mmsg">
+                    <p>id:<@=data.transformDTO.id@></p>
+                    <p>msg:<@=data.transformDTO.msg@></p>
+                    <p>msgCode:<@=data.transformDTO.msgCode@></p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <a class="btn btn-success" onclick="graphs('<@=data.clientInfo.id@>')">查看图表</a>
+
+                <@if(data.flag==1){@>
+                    <a class="btn btn-default" disabled="disabled">已处理</a>
+                <@}else{@>
+                    <a onclick="handle('<@=data.id@>');" class="btn btn-success">立即处理</a>
+                <@}@>
+            </td>
+        </tr>
+    </tbody>
+</script>
+<script>
+    var bt=baidu.template;
+    var userName;
+    function getuserName(name) {
+        var reg1 = new RegExp("(^|&)" + name + "=([^&]*)(&|;)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r1 = decodeURI(window.location.search.substr(1)).match(reg1);
+        if (r1 != null) return unescape(r1[2]); return null;
+    }
+    userName = getuserName("userName");
+    var jsessionid;
+    //获取jsessionid
+    function getSessionid(name) {
+        var reg = new RegExp("(^|;)" + name + "=([^;]*)(;|:)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r = decodeURI(window.location.search.substr(1)).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    jsessionid=getSessionid("jsessionid");
+    console.log(jsessionid);
+    //获取did
+    var did;
+    function getDid(name) {
+        var reg = new RegExp("(^|:)" + name + "=([^:]*)(:|$)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r = decodeURI(window.location.search.substr(1)).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    did=getDid("did");
+    console.log(did);
+    function indexlists(){
+        window.location.href = 'index.html?userName='+userName+';jsessionid='+jsessionid;
+
+    }
+    function myalarm(){
+        window.location.href = 'myalarm.html?userName='+userName+';jsessionid='+jsessionid;
+    }
+    function collect(){
+        window.location.href = 'collect-itemconfig.html?userName='+userName+';jsessionid='+jsessionid+':did='+did;
+    }
+    function alarmConfig(cid){
+        window.location.href = 'alarm-configuration.html?userName='+userName+';jsessionid='+jsessionid+':cid='+cid;
+    }
+    function graphs(cid){
+        window.location.href = 'monitor-graphs.html?userName='+userName+';jsessionid='+jsessionid+':cid='+cid;
+    }
+    /*function login(userName,passwd) {
+        $.post('http://192.168.0.217:6677//web/user/login?userName' +userName+ '&passwd=' + passwd, null, function (data) {
+            console.log(data);
+            var result=eval('('+data+')');
+            if (result.code== 0) {
+                if(userName=='admin'){
+                    $('#uname').html(userName+ ' (管理员)');
+                }else{
+                    $('#uname').html(userName+ ' (用户)');
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        })
+    }*/
+    function checkLogin(){
+        userName = getuserName("userName");
+        console.log(userName);
+        if(userName != null){
+            $('#uname').html(userName);
+            //$('#user').css("display","block");
+        }
+    }
+    checkLogin();
+
+    function loginOut(){
+        $.post("http://192.168.0.217:6677//web/user/logout",null,function(data){
+            var result=eval('('+data+')');
+            if(result.code== 0){
+                $('#uname').html('登录');
+                //location.reload();
+                //console.log($('#uname').html());
+                window.location.href = 'login.html';
+            }else{
+                alert("请求错误！");
+            }
+        })
+
+    }
+    /**/
+    function getAlarmbyid(){
+        $.get('http://192.168.0.217:6677//web/alarmlogs/'+did+';jsessionid='+jsessionid,null,function(result){
+            var result=eval('('+result+')');
+            console.log(result.data);
+            if(result.code == 0){
+                var tableHtml=bt('t:table',result);
+                console.log(tableHtml);
+                $('#details').html();
+                $('#details').html(tableHtml);
+                //var pagecode = getpagecode(result.data.length,1,10);
+                //$("#footer").html("");
+                //$("#footer").html(pagecode);
+            }else{
+                alert("请求错误！");
+                window.location.href = 'login.html';
+            }
+        })
+    }
+    getAlarmbyid();
+    /*处理告警*/
+    function handle(did){
+        $.post('http://192.168.0.217:6677//web/alarmlogs/'+did+';jsessionid='+jsessionid,null,function(result){
+            var result=eval('('+result+')');
+            console.log(result.data);
+            if(result.code == 0){
+                alert('处理完成！');
+                location.reload();
+            }else{
+                alert("请求错误！");
+                window.location.href = 'login.html';
+            }
+        })
+    }
+</script>
+</body>
+</html>

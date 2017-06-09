@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title>js实现在字符串中提取数字</title>
+    <script language="javascript" type="text/javascript">
+        function getNum(text){
+            var value = text.replace(/[^0-9]/ig,"");
+            alert(value);
+        }
+    </script>
+    <style>
+        ul li{
+            list-style-type: circle;
+        }
+    </style>
+</head>
+
+<body>
+<ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ul>
+<input type="text" id="btn_getNum"/>
+<input type="button" value="得到数字" onclick="getNum(btn_getNum.value);"/>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>jquery 实现二级联动菜单</title>
+
+    <script src="js/jquery-1.10.2.min.js"></script>
+
+    <script>
+
+        $(function(){
+
+            $('#province').change(function(){
+
+                $('#province option').each(function(i){
+
+                    if($(this).attr('selected')){
+
+                        $('.city').hide().eq(i).show();
+
+                    }
+
+                })
+
+            })
+
+        })
+
+    </script>
+
+</head>
+
+<body>
+
+<select name="province" id="province">
+
+    <option>请选择省份</option>
+
+    <option>湖南</option>
+
+    <option>广东</option>
+
+</select>
+
+<select name="city" class="city">
+
+    <option>请选择城市</option>
+
+</select>
+
+<select name="city" class="city" style="display:none;">
+
+    <option>长沙</option>
+
+    <option>株洲</option>
+
+    <option>张家界</option>
+
+</select>
+
+<select name="city" class="city" style="display:none;" >
+
+    <option>广州</option>
+
+    <option>佛山</option>
+
+    <option>东莞</option>
+
+</select>
+
+</body>
+
+</html>

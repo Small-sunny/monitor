@@ -1,0 +1,2474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>采集曲线图</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style1.css">
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <style>
+        .header-section{
+            background-color: #65CEA7;
+        }
+        .wrapper .panel-heading{
+            background-color: #65CEA7;
+            color:#fff;
+        }
+        hr{
+            margin: 0;
+        }
+        #mem,#pix,#ethttx,#ethtx,#root,#sys,#cpu,#cpu-temp{
+            width:100%;
+            height:280px;
+            z-index: 1;
+        }
+        .back-btn{
+            margin-bottom: 10px;
+        }
+        .header{
+            padding:10px;
+            margin:10px;
+        }
+        .sels,.btns{
+            padding:15px;
+            padding-left:35px;
+        }
+        .btns{
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <h4><a href="index.html"><span>Lumino</span>Admin</a></h4>
+        </div>
+
+        <!--<div class="logo-icon text-center">
+            <a href="index.html"><img src="images/logo_icon.png" alt=""></a>
+        </div>-->
+        <!--logo and iconic logo end-->
+        <div class="left-side-inner">
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list">
+                    <a href=""><i class="fa fa-laptop"></i> <span>告警信息管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li ><a onclick="indexlists();">告警信息列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list active">
+                    <a><i class="fa fa-book"></i> <span>我的监控项</span></a>
+                    <ul class="sub-menu-list">
+                        <li class="active"><a onclick="jumpTomyalarm();">所有客户端列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list">
+                    <a onclick="collect();"><i class="fa fa-dashboard"></i> <span>采集项配置</span></a>
+                </li>
+            </ul>
+            <!--sidebar nav end-->
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+            <form class="searchform" action="index.html" method="post">
+                <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+            </form>
+            <!--search end-->
+
+            <!--notification menu start  右侧登录信息-->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a  href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/photos/user-avatar.png" alt="" />
+                            <span id="uname">登录</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul id="user" class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#" disabled="true"><i class="fa fa-user"></i>修改密码</a></li>
+                            <!--<li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>-->
+                            <li><a disabled="true" onclick="loginOut();"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h1>采集曲线图</h1>
+        </div>
+        <!-- page heading end-->
+        <hr/>
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel ">
+                        <div class="panel-heading panel-blue">采集曲线图</div>
+                        <div class="panel-body">
+                            <a onclick="jumpTomyalarm();" class="back-btn btn btn-success"><span class="glyphicon glyphicon-share"></span>返回</a><br>
+                            <div class="row">
+                                <div class="col-lg-5 btns">
+                                    <a class="btn btn-sm btn-success " onclick="beforeNowtimeByMinu(30);">过去半小时</a>
+                                    <a class="btn btn-sm btn-success " onclick="beforeNowtime(1);">过去一小时</a>
+                                    <a class="btn btn-sm btn-success " onclick="beforeNowtime(24);">过去一天</a>
+                                </div>
+                                <div class="col-lg-7 sels">
+                                    开始时间：<input id="stime" value="" class="Wdate" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                                    结束时间：<input id="etime" value="" class="Wdate" type="text" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                                    <a class="btn btn-success" onclick="monitorItemListByTime();">确定</a>
+                                </div>
+                            </div>
+                            <div class="header">
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h4>cpu使用率:</h4>
+                                        <div id="cpu"></div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h4>cpu风扇转速:</h4>
+                                        <div id="cpu-temp"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="header">
+                                <div class="row">
+
+                                    <div class="col-lg-12">
+                                        <h4>eth0网卡出网速:</h4>
+                                        <div id="ethttx"></div>
+                                    </div>
+                                    <!--<div class="col-lg-6">
+                                        <h4>ping延迟:</h4>
+                                        <div id="ethtx"></div>
+                                    </div>-->
+                                </div>
+                            </div>
+                            <div class="header">
+                                <h4>内存占用:</h4>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div id="mem"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="header">
+                                <h4>pix占用:</h4>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div id="pix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="header">
+                                <h4>根目录占用:</h4>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div id="root"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="header">
+                                <h4>系统状态:</h4>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div id="sys"></div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table id="sys1" class="table table-striped table-hover">
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul id="footer" class="pagination">
+                                <!--<li><a href="">首页</a></li>
+                                <li class="disabled"><a href="">上一页</a></li>
+                                <li class="active"><a href="">1</a></li>
+                                <li class="disabled"><a href="">下一页</a></li>
+                                <li><a href="">尾页</a></li>
+                                <li id="count"></li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+<script src="My97DatePicker/WdatePicker.js"></script>
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!--Calendar-->
+<script src="js/calendar/clndr.js"></script>
+<script src="js/calendar/evnt.calendar.init.js"></script>
+<script src="js/calendar/moment-2.2.1.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+<!--common scripts for all pages-->
+
+<script src="js/scripts.js"></script>
+
+<script src="js/baiduTemplate.js"></script>
+<script src="echarts/dist/echarts.js"></script>
+
+<script id="t:table" type="text/html">
+        <tr>
+            <th>脚本执行时间</th>
+            <td><@=data[0].sys.current_time@></td>
+        </tr>
+        <tr>
+            <th>raid卡是否正常</th>
+            <td>
+                <@if(data[0].sys.raid_ok=='1'){@>
+                    正常
+                <@}else{@>
+                    不正常
+                <@}@>
+            </td>
+        </tr>
+        <tr>
+            <th>服务器机型</th>
+            <td><@=data[0].sys.model@></td>
+        </tr>
+        <tr>
+            <th>系统开机时长</th>
+            <td><@=data[0].sys.sys_uptime@>s</td>
+        </tr>
+        <tr>
+            <th>运维脚本版本号</th>
+            <td><@=data[0].sys.version@></td>
+        </tr>
+</script>
+<script>
+    var bt=baidu.template;
+    var userName;
+    function getuserName(name) {
+        var reg1 = new RegExp("(^|&)" + name + "=([^&]*)(&|;)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r1 = decodeURI(window.location.search.substr(1)).match(reg1);
+        if (r1 != null) return unescape(r1[2]); return null;
+    }
+    userName = getuserName("userName");
+    //获取cid
+    var cid;
+    function getCid(name) {
+        var reg = new RegExp("(^|:)" + name + "=([^:]*)(:|$)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r = decodeURI(window.location.search.substr(1)).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    cid=getCid("cid");
+    console.log(cid);
+    var jsessionid;
+    //获取jsessionid
+    function getSessionid(name) {
+        var reg = new RegExp("(^|;)" + name + "=([^;]*)(;|:)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r = decodeURI(window.location.search.substr(1)).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    jsessionid=getSessionid("jsessionid");
+    console.log(jsessionid);
+    function indexlists(){
+        window.location.href = 'index.html?userName='+userName+';jsessionid='+jsessionid;
+    }
+    function jumpTomyalarm(){
+        window.location.href = 'myalarm.html?userName='+userName+';jsessionid='+jsessionid;
+    }
+    function collect(){
+        window.location.href='collect-itemconfig.html?userName='+userName+';jsessionid='+jsessionid;
+
+    }
+    function login(userName,passwd) {
+        $.post('http://192.168.0.217:6677//web/user/login?userName' +userName+ '&passwd=' + passwd, null, function (data) {
+            console.log(data);
+            var result=eval('('+data+')');
+            if (result.code== 0) {
+                if(userName=='admin'){
+                    $('#uname').html(userName+ ' (管理员)');
+                }else{
+                    $('#uname').html(userName+ ' (用户)');
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        })
+    }
+    function checkLogin(){
+        userName = getuserName("userName");
+        console.log(userName);
+        if(userName != null){
+            $('#uname').html(userName);
+            //$('#user').css("display","block");
+        }
+    }
+    checkLogin();
+
+    function loginOut(){
+        $.post("http://192.168.0.217:6677//web/user/logout",null,function(data){
+            var result=eval('('+data+')');
+            if(result.code== 0){
+                $('#uname').html('登录');
+                //location.reload();
+                //console.log($('#uname').html());
+                window.location.href = 'login.html';
+            }else{
+                alert("请求错误！");
+            }
+        })
+
+    }
+
+</script>
+<script>
+
+    /*cpu*/
+    //cpu使用率
+    //var ucpu;
+    function monitorItem(){
+        console.log(cid);
+        $.get('http://192.168.0.217:6677//web/monitorItem/list;jsessionid='+jsessionid+'?pageNum=1&size=10&id='+cid,null,function(result){
+            var result=eval('('+result+')');
+            console.log(result);
+            if(result.code == 0){
+                console.log(result.data[0].cpu.use_cpu);
+                var use_cpu=result.data[0].cpu.use_cpu;
+                console.log(use_cpu);
+                ucpu=(use_cpu * 100).toFixed(2);
+                console.log(ucpu);
+                var c_option = {
+                    title: {
+                        "text": 'CPU使用率',
+                        "x": '50%',
+                        "y": '45%',
+                        textAlign: "center",
+                        "textStyle": {
+                            "fontWeight": 'normal',
+                            "fontSize": 24
+                        },
+                        "subtext":ucpu+ "%",
+                        "subtextStyle": {
+                            "fontWeight": 'bold',
+                            "fontSize": 24,
+                            "color": '#FB653E'
+                        }
+                    },
+                    series: [
+                        {
+                            "name": ' ',
+                            "type": 'pie',
+                            "radius": ['50%', '70%'],
+                            "avoidLabelOverlap": false,//是否启用防止标签重叠策略，默认开启,false关闭
+                            "startAngle": 225,
+                            "color": ["#FB653E", "transparent"],
+                            "hoverAnimation": false,
+                            "legendHoverLink": false,
+                            "label": {
+                                "normal": {
+                                    "show": false,
+                                    "position": 'center'
+                                },
+                                "emphasis": {
+                                    "show": true,
+                                    "textStyle": {
+                                        "fontSize": '30',
+                                        "fontWeight": 'bold'
+                                    }
+                                }
+                            },
+                            "labelLine": {
+                                "normal": {
+                                    "show": false
+                                }
+                            },
+                            "data": [{
+                                "value": 75,
+                                "name": '1'
+                            }, {
+                                "value": 25,
+                                "name": '2'
+                            }]
+                        },
+                        {
+                            "name": '',
+                            "type": 'pie',
+                            "radius": ['52%', '68%'],
+                            "avoidLabelOverlap": false,
+                            "startAngle": 317,
+                            "color": ["#fff", "transparent"],
+                            "hoverAnimation": false,
+                            "legendHoverLink": false,
+                            "clockwise": false,
+                            "itemStyle":{
+                                "normal":{
+                                    "borderColor":"transparent",
+                                    "borderWidth":"20"
+                                },
+                                "emphasis":{
+                                    "borderColor":"transparent",
+                                    "borderWidth":"20"
+                                }
+                            }
+                            ,
+                            "z":10,
+                            "label": {
+                                "normal": {
+                                    "show": false,
+                                    "position": 'center'
+                                },
+                                "emphasis": {
+                                    "show": true,
+                                    "textStyle": {
+                                        "fontSize": '30',
+                                        "fontWeight": 'bold'
+                                    }
+                                }
+                            },
+                            "labelLine": {
+                                "normal": {
+                                    "show": false
+                                }
+                            },
+                            "data": [{
+                                "value": (100 - ucpu) * 266 / 360,
+                                "name": ''
+                            }, {
+                                "value": 100 - (100 - ucpu) * 266 / 360,
+                                "name": ''
+                            }
+                            ]
+                        }
+
+                    ]
+                };
+                //var cpu1=document.getElementById('cpu');
+                var myChart_cpu=echarts.init(document.getElementById('cpu'));
+                myChart_cpu.setOption(c_option, true);
+
+            }else{
+                alert("请求错误！");
+                window.location.href = 'login.html';
+            }
+        })
+    }
+    //monitorItem();
+
+
+    /*cpu1.timeTicket = setInterval(function() {
+     var value = parseInt(Math.random() * 55) + 30,
+     value_ = (100 - value) * 266 / 360;
+     c_option.title.subtext = value + "%";
+     c_option.series[1].data[0].value = value_;
+     c_option.series[1].data[1].value = 100 - value_;
+     myChart_cpu.setOption(c_option, true);
+     }, 3000);*/
+    //cpu-temp温度
+    var xdata=[];//x轴
+    var xdata1=[];
+    var ucpu=[];//cpu使用
+    var tcpu=[];
+    var dcpu=[];
+    var data2=[];//内存占用
+    var pix=[];//pix
+    var eth0_tx=[];//eth0网卡出网速
+    var ping_val=[];//ping值
+    var root=[];//根目录百分比
+    var sys_io=[];//io使用率
+
+    var mtotal='';//总内存
+    var ptotal='';//pix目录大小
+    var rtotal='';//根目录大小
+    //var sys_raid=[];//
+    var markLineData = [];
+    for (var i = 1; i < data2.length; i++) {
+        markLineData.push([{
+            xAxis: i - 1,
+            yAxis: data2[i - 1],
+            value: (data2[i] + data2[i-1]).toFixed(2)
+        }, {
+            xAxis: i,
+            yAxis: data2[i]
+        }]);
+    }
+    var pageNum=1;
+    var size=20;
+    function getdata(){
+        $.get('http://192.168.0.217:6677//web/monitorItem/list;jsessionid=' + jsessionid + '?pageNum='+pageNum+'&size='+size+'&id=' + cid, null, function (result) {
+            var result = eval('(' + result + ')');
+            console.log(result);
+            console.log(result.data.length);
+            if (result.code == 0) {
+                var tableHtml=bt('t:table',result);
+                $('#sys1 tbody').html();
+                $('#sys1 tbody').html(tableHtml);
+                //var tt=[];
+                for (var i = 0; i < result.data.length;i++ ) {
+                    xdata.push(result.data[i].time);
+                    xdata1=xdata.sort();
+                    //var xdata1=xdata1.slice(0,5);
+                    //cpu使用
+                    var use_cpu=result.data[i].cpu.use_cpu;
+                    //console.log(use_cpu);
+                    //var ucpu1=(use_cpu * 100).toFixed(2);
+                    ucpu.push(use_cpu);
+
+                    var topc=result.data[i].cpu.fan[0];
+                    //console.log(topc);
+                    var dopc=result.data[i].cpu.fan[1];
+                    //console.log(dopc);
+                    tcpu.push(topc);
+                    dcpu.push(dopc);
+
+
+                    var mem1=result.data[i].mem.mem_total-result.data[i].mem.mem_free;
+                    data2.push(mem1);
+                    //console.log(data2);
+
+                    var pix1=parseInt(result.data[i].pix.pix_percent);
+                    pix.push(pix1);
+                    //console.log(pix);
+
+                    eth0_tx.push(result.data[i].eth0.eth0_tx);
+                    //var ping=result.data[i].eth0.ping_value;
+                    //ping_val.push(ping);
+
+
+                    var root1=parseInt(result.data[i].root.root_percent);
+                    root.push(root1);
+
+                    sys_io.push(result.data[i].sys.io_util);
+                }
+                graphs();
+            } else {
+                alert("请求错误！");
+                window.location.href = 'login.html';
+            }
+
+        })
+    }
+    getdata();
+
+    //var stime=$('#stime');
+    //var etime=$('#etime');
+    var starttime='';
+    var endtime='';
+    var sxdata=[];
+    var sxdata1=[];
+
+    function endThanStart(startTime,endTime){
+        var startdate = new Date((startTime).replace(/-/g,"/"));
+        var enddate = new Date((endTime).replace(/-/g,"/"));
+        if(enddate < startdate)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    /*按时间筛选*/
+    function monitorItemListByTime(){
+        starttime=$('#stime').val();
+        endtime=$('#etime').val();
+
+        if(starttime==''){
+            alert('请选择起始时间！');
+            return;
+        }
+        if(endtime==''){
+            alert('请选择截止时间！');
+            return;
+        }
+        alert(starttime);
+        alert(endtime);
+        var data1 = Date.parse(starttime.replace(/-/g,   "/"));
+        var data2 = Date.parse(endtime.replace(/-/g,   "/"));
+        var datadiff = data2-data1;
+        console.log(datadiff);
+        if(datadiff<0){
+            alert("结束时间应大于开始时间,请检查!");
+            return false;
+        }
+        var s=escape(starttime);
+        var e=escape(endtime);
+
+        console.log(s);
+        console.log(e);//http://192.168.0.217:6677//web/monitorItem/2017-05-26%2013%3A57%3A00/2017-05-26%2014%3A57%3A00/listbytime?id=123456
+        $.get('http://192.168.0.217:6677//web/monitorItem/'+s+'/'+e+'/listbytime;jsessionid='
+                +jsessionid+'?id='+cid,null,function(result){
+            var result = eval('(' + result + ')');
+            console.log(result);
+            console.log(result.data.length);
+            var len=result.data.length;
+            if (result.code == 0) {
+                var tt=[];
+                for (var i = 0; i < len;i++ ) {
+                    tt.push(result.data[i].time);
+                    console.log(tt[i].substr(tt[i].length-8));
+                    //tt.Format('hh:mm:ss');
+                    //console.log(tt);
+                    sxdata.push(tt[i].substr(tt[i].length-8));
+
+                    console.log(sxdata);
+                    sxdata1=sxdata.sort();
+                    console.log(sxdata1);
+
+                    var use_cpu=result.data[i].cpu.use_cpu;
+                    //console.log(use_cpu);
+                    //var ucpu1=(use_cpu * 100).toFixed(2);
+                    ucpu.push(use_cpu);
+
+                    var topc=result.data[i].cpu.fan[0];
+                    //console.log(topc);
+                    var dopc=result.data[i].cpu.fan[1];
+                    //console.log(dopc);
+                    tcpu.push(topc);
+                    dcpu.push(dopc);
+
+
+                    var mem1=result.data[i].mem.mem_total-result.data[i].mem.mem_free;
+                    data2.push(mem1);
+                    //console.log(data2);
+
+                    var pix1=parseInt(result.data[i].pix.pix_percent);
+                    pix.push(pix1);
+                    //console.log(pix);
+
+                    eth0_tx.push(result.data[i].eth0.eth0_tx);
+                    var ping=result.data[i].eth0.ping_value;
+                    ping_val.push(ping);
+
+
+                    var root1=parseInt(result.data[i].root.root_percent);
+                    root.push(root1);
+
+                    sys_io.push(result.data[i].sys.io_util);
+                }
+                console.log(sxdata);
+                graphs1();
+            }else{
+                alert("请求错误！");
+                //window.location.href = 'login.html';
+            }
+        })
+    }
+    /*绘制图表(默认)*/
+    function graphs(){
+        /*cpu使用*/
+        var c_option = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['cpu使用率'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                position:'middle',
+                splitNumber:5,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                /*axisLabel: {
+                 rotate:30,
+                 interval:0 //横轴信息全部显示
+                 },*/
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 100// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'cpu使用率',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(245,5,23, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(245,5,23, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(245,5,23)',
+                            borderColor: 'rgba(245,5,23,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: ucpu
+                }
+            ]
+
+
+        };
+        //var cpu1=document.getElementById('cpu');
+        var myChart_cpu=echarts.init(document.getElementById('cpu'));
+        myChart_cpu.setOption(c_option, true);
+
+        /*fan*/
+        var cf_option = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['fan高','fan低'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                position:'middle',
+                splitNumber:5,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'fan高',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(245,5,23, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(245,5,23, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(245,5,23)',
+                            borderColor: 'rgba(245,5,23,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: tcpu
+                }
+                ,{
+                    name: 'fan低',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(111,245,196, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(111,245,196, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(111,245,196)',
+                            borderColor: 'rgba(111,245,196,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: dcpu
+                }
+            ]
+        };
+        var myChart_cput=echarts.init(document.getElementById('cpu-temp'));
+        myChart_cput.setOption(cf_option, true);
+        /*内存占用*/
+        var omem= {
+            tooltip : {
+                trigger: 'axis',
+                formatter: '{b0} <br/> {a0}: {c0} 兆'
+            },
+            legend: {
+                data:['内存占用'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                position:'middle',
+                splitNumber:5,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            series: [
+                {
+                    name: '内存占用',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(249,36,63, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(249,36,63, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(249,36,63)',
+                            borderColor: 'rgba(249,36,63,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: data2
+                }]
+        };
+        var myChart_mem=echarts.init(document.getElementById('mem'));
+        myChart_mem.setOption(omem);
+        /*pix目录占用*/
+        var opix= {
+            tooltip : {
+                trigger: 'axis',
+                formatter: '{b0} <br/> {a0}:{c0} %'
+            },
+            legend: {
+                data:['pix百分比'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: 'pix百分比',
+                 type: 'line',
+                 data: pix,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#1EBFAE',
+                 lineStyle: {
+                 color: '#1EBFAE'
+                 }
+                 }
+
+
+                 }
+                 }*/
+                {
+                    name: 'pix百分比',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(30,191,174, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(30,191,174, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(30,191,174)',
+                            borderColor: 'rgba(30,191,174,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: pix
+                }
+            ]
+        };
+        var myChart_pix=echarts.init(document.getElementById('pix'));
+        myChart_pix.setOption(opix);
+        /*eth0网卡出网速*/
+        var eth_tx= {
+            tooltip : {
+                trigger: 'axis',
+                formatter: '{b0} <br/>{a0}: {c0} 字节'
+            },
+            legend: {
+                data:['eth0网卡出网速'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                {
+                    name: 'eth0网卡出网速',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(101,206,167, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(101,206,167, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(101,206,167)',
+                            borderColor: 'rgba(101,206,167,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: eth0_tx
+                }]
+        };
+        var myChart_ethtx=echarts.init(document.getElementById('ethttx'));
+        myChart_ethtx.setOption(eth_tx);
+        /*ping延时*/
+        /*var ping_v= {
+            tooltip : {
+                trigger: 'axis',
+                formatter: '{b0} <br/> {a0}:{c0} s'
+            },
+            legend: {
+                data:['ping值'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                {
+                    name: 'ping值',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(240,149,10, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(240,149,10, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(240,149,10)',
+                            borderColor: 'rgba(240,149,10,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: ping_val
+                }]
+        };
+        var myChart_ethtx=echarts.init(document.getElementById('ethtx'));
+        myChart_ethtx.setOption(ping_v);*/
+        /*根目录占比*/
+        var root_o= {
+            tooltip : {
+                trigger: 'axis',
+                formatter: '{b0} <br/>{a0}: {c0} %'
+            },
+            legend: {
+                data:['根目录占比'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: '根目录占比',
+                 type: 'line',
+                 data: root,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#30A5FF',
+                 lineStyle: {
+                 color: '#30A5FF'
+                 }
+                 }
+
+
+                 }
+                 }*/
+                {
+                    name: '根目录占比',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(0, 136, 212, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(0, 136, 212, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(0,136,212)',
+                            borderColor: 'rgba(0,136,212,0.2)',
+                            borderWidth: 12
+
+                        }
+                    },
+                    data: root
+                }]
+        };
+        var myChart_root=echarts.init(document.getElementById('root'));
+        myChart_root.setOption(root_o);
+        /*io占比*/
+        var sys_io1= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['IO使用率'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:xdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: 'IO使用率',
+                 type: 'line',
+                 data: sys_io,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#8AD919',
+                 lineStyle: {
+                 color: '#8AD919'
+                 }
+                 }
+
+
+                 }
+                 },*/{
+                    name: 'IO使用率',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(137, 189, 27, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(137, 189, 27, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(137,189,27)',
+                            borderColor: 'rgba(137,189,2,0.27)',
+                            borderWidth: 12
+
+                        }
+                    },
+                    data: sys_io
+                }]
+        };
+        var myChart_sysio=echarts.init(document.getElementById('sys'));
+        myChart_sysio.setOption(sys_io1);
+    }
+    /*绘制图表（按时间）*/
+    function graphs1(){
+        /*cpu使用*/
+        var c_option = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['cpu使用率'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                position:'middle',
+                splitNumber:5,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                /*axisLabel: {
+                 rotate:30,
+                 interval:0 //横轴信息全部显示
+                 },*/
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 100// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'cpu使用率',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(245,5,23, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(245,5,23, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(245,5,23)',
+                            borderColor: 'rgba(245,5,23,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: ucpu
+                }
+            ]
+
+
+        };
+        //var cpu1=document.getElementById('cpu');
+        var myChart_cpu=echarts.init(document.getElementById('cpu'));
+        myChart_cpu.setOption(c_option, true);
+
+        /*fan*/
+        var cf_option = {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['fan高','fan低'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                position:'middle',
+                splitNumber:5,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            series: [
+                {
+                    name: 'fan高',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(245,5,23, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(245,5,23, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(245,5,23)',
+                            borderColor: 'rgba(245,5,23,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: tcpu
+                }
+                ,{
+                    name: 'fan低',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(111,245,196, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(111,245,196, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(111,245,196)',
+                            borderColor: 'rgba(111,245,196,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: dcpu
+                }
+            ]
+        };
+        var myChart_cput=echarts.init(document.getElementById('cpu-temp'));
+        myChart_cput.setOption(cf_option, true);
+        /*内存占用*/
+        var omem= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['内存占用'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                position:'middle',
+                splitNumber:5,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            series: [
+                /*{
+                 name: '内存占用',
+                 type: 'line',
+                 data: data2,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#F9243F',
+                 lineStyle: {
+                 color: '#F9243F'
+                 }
+                 }
+
+
+                 }
+                 }*/
+                {
+                    name: '内存占用',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(249,36,63, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(249,36,63, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(249,36,63)',
+                            borderColor: 'rgba(249,36,63,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: data2
+                }]
+        };
+        var myChart_mem=echarts.init(document.getElementById('mem'));
+        myChart_mem.setOption(omem);
+        /*pix目录占用*/
+        var opix= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['pix百分比'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: 'pix百分比',
+                 type: 'line',
+                 data: pix,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#1EBFAE',
+                 lineStyle: {
+                 color: '#1EBFAE'
+                 }
+                 }
+
+
+                 }
+                 }*/
+                {
+                    name: 'pix百分比',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(30,191,174, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(30,191,174, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(30,191,174)',
+                            borderColor: 'rgba(30,191,174,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: pix
+                }
+            ]
+        };
+        var myChart_pix=echarts.init(document.getElementById('pix'));
+        myChart_pix.setOption(opix);
+        /*eth0网卡出网速*/
+        var eth_tx= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['eth0网卡出网速'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                {
+                    name: 'eth0网卡出网速',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(101,206,167, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(101,206,167, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(101,206,167)',
+                            borderColor: 'rgba(101,206,167,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: eth0_tx
+                }]
+        };
+        var myChart_ethtx=echarts.init(document.getElementById('ethttx'));
+        myChart_ethtx.setOption(eth_tx);
+        /*ping值*/
+        var ping_v= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['ping值'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: '网口0发送速率',
+                 type: 'line',
+                 data: eth0_tx,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#fb653e',//249,36,63
+                 lineStyle: {
+                 color: '#fb653e'
+                 }
+                 }
+
+
+                 }
+                 }*/
+                {
+                    name: 'ping值',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(240,149,10, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(240,149,10, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+
+                            color: 'rgb(240,149,10)',
+                            borderColor: 'rgba(240,149,10,0.2)',
+                            borderWidth: 12
+                        }
+                    },
+                    data: ping_val
+                }]
+        };
+        var myChart_ethtx=echarts.init(document.getElementById('ethtx'));
+        myChart_ethtx.setOption(ping_v);
+        /*根目录占比*/
+        var root_o= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['根目录占比'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: '根目录占比',
+                 type: 'line',
+                 data: root,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#30A5FF',
+                 lineStyle: {
+                 color: '#30A5FF'
+                 }
+                 }
+
+
+                 }
+                 }*/
+                {
+                    name: '根目录占比',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(0, 136, 212, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(0, 136, 212, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(0,136,212)',
+                            borderColor: 'rgba(0,136,212,0.2)',
+                            borderWidth: 12
+
+                        }
+                    },
+                    data: root
+                }]
+        };
+        var myChart_root=echarts.init(document.getElementById('root'));
+        myChart_root.setOption(root_o);
+        /*io占比*/
+        var sys_io1= {
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['IO使用率'],
+
+                textStyle:{
+                    color: '#aaa'
+                }
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data:sxdata1,
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 50,
+                x2: 30,
+                y2: 40// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            },
+            yAxis: {
+                nameTextStyle: {
+                    color: '#000' // x坐标轴名称文字样式
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#000' //坐标轴线颜色
+                    }
+                }
+            },
+
+            series: [
+                /*{
+                 name: 'IO使用率',
+                 type: 'line',
+                 data: sys_io,
+                 markPoint: {
+                 data: [
+                 {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                 ]
+                 },
+                 itemStyle: {
+                 normal: {
+                 color: '#8AD919',
+                 lineStyle: {
+                 color: '#8AD919'
+                 }
+                 }
+
+
+                 }
+                 },*/{
+                    name: 'IO使用率',
+                    type: 'line',
+                    smooth: true,
+                    symbol: 'circle',
+                    symbolSize: 5,
+                    showSymbol: false,
+                    lineStyle: {
+                        normal: {
+                            width: 1
+                        }
+                    },
+                    areaStyle: {
+                        normal: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                                offset: 0,
+                                color: 'rgba(137, 189, 27, 0.3)'
+                            }, {
+                                offset: 0.8,
+                                color: 'rgba(137, 189, 27, 0)'
+                            }], false),
+                            shadowColor: 'rgba(0, 0, 0, 0.1)',
+                            shadowBlur: 10
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgb(137,189,27)',
+                            borderColor: 'rgba(137,189,2,0.27)',
+                            borderWidth: 12
+
+                        }
+                    },
+                    data: sys_io
+                }]
+        };
+        var myChart_sysio=echarts.init(document.getElementById('sys'));
+        myChart_sysio.setOption(sys_io1);
+    }
+/*日期格式化*/
+    Date.prototype.Format = function(fmt)
+    { //author: meizz
+        var o = {
+            "M+" : this.getMonth()+1,                 //月份
+            "d+" : this.getDate(),                    //日
+            "h+" : this.getHours(),                   //小时
+            "m+" : this.getMinutes(),                 //分
+            "s+" : this.getSeconds(),                 //秒
+            "q+" : Math.floor((this.getMonth()+3)/3), //季度
+            "S"  : this.getMilliseconds()             //毫秒
+        };
+        if(/(y+)/.test(fmt))
+            fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+        for(var k in o)
+            if(new RegExp("("+ k +")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o
+                        [k]).length)));
+        return fmt;
+    };
+        /*过去30分钟*/
+    //获取从现在到 beforetime 分钟前的时间
+    function beforeNowtimeByMinu(beforetime){
+        var date = new Date(); //日期对象
+        date.setMinutes (date.getMinutes () - beforetime);
+        var now = "";
+        now = date.getFullYear()+"-"; //读英文就行了
+        now = now + (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';//取月的时候取的是当前月-1如果想取当前月+1就可以了
+        now = now + setFormat(date.getDate())+" ";
+        now = now + setFormat(date.getHours())+":";
+        now = now + setFormat(date.getMinutes())+":";
+        now = now + setFormat(date.getSeconds())+"";
+        //return now;
+        console.log(now);
+        var s=escape(now);
+        var e=escape(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+        $.get('http://192.168.0.217:6677//web/monitorItem/'+s+'/'+e+'/listbytime;jsessionid='
+                +jsessionid+'?id='+cid,null,function(result){
+            var result = eval('(' + result + ')');
+            console.log(result);
+            console.log(result.data.length);
+            var len=result.data.length;
+            if (result.code == 0) {
+                if(len==0){
+                    alert('暂无此时间段的数据！');
+                }else{
+                    for (var i = 0; i < len;i++ ) {
+                        console.log(result.data[i].time);
+                        sxdata.push(result.data[i].time);
+                        console.log(sxdata);
+                        sxdata1=sxdata.sort();
+                        console.log(sxdata1);
+
+                        var use_cpu=result.data[i].cpu.use_cpu;
+                        //console.log(use_cpu);
+                        //var ucpu1=(use_cpu * 100).toFixed(2);
+                        ucpu.push(use_cpu);
+
+                        var topc=result.data[i].cpu.fan[0];
+                        //console.log(topc);
+                        var dopc=result.data[i].cpu.fan[1];
+                        //console.log(dopc);
+                        tcpu.push(topc);
+                        dcpu.push(dopc);
+
+
+                        var mem1=result.data[i].mem.mem_total-result.data[i].mem.mem_free;
+                        data2.push(mem1);
+                        //console.log(data2);
+
+                        var pix1=parseInt(result.data[i].pix.pix_percent);
+                        pix.push(pix1);
+                        //console.log(pix);
+
+                        eth0_rx.push(result.data[i].eth0.eth0_rx);
+                        var ping=result.data[i].eth0.ping_value;
+                        ping_val.push(ping);
+
+
+                        var root1=parseInt(result.data[i].root.root_percent);
+                        root.push(root1);
+
+                        sys_io.push(result.data[i].sys.io_util);
+                    }
+                    console.log(sxdata);
+                    graphs1();
+                }
+            }else{
+                alert("请求错误！");
+                //window.location.href = 'login.html';
+            }
+        })
+    }
+
+
+    //时间位数为1位数时，前面补0
+    var setFormat=function (x) {
+        if (x < 10) {
+            x = "0" + x;
+        }
+        return x;
+    };
+    //获取从现在到 beforetime 小时前的时间（beforetime 只能是整数）
+    function beforeNowtime(beforetime){
+        var date = new Date(); //日期对象
+        date.setHours (date.getHours () - beforetime);
+        var now = "";
+        now = date.getFullYear()+"-"; //读英文就行了
+        now = now + (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';//取月的时候取的是当前月-1如果想取当前月+1就可以了
+        now = now + setFormat(date.getDate())+" ";
+        now = now + setFormat(date.getHours())+":";
+        now = now + setFormat(date.getMinutes())+":";
+        now = now + setFormat(date.getSeconds())+"";
+        //return now;
+        console.log(now);
+        var s=escape(now);
+        var e=escape(new Date().Format("yyyy-MM-dd hh:mm:ss"));
+        $.get('http://192.168.0.217:6677//web/monitorItem/'+s+'/'+e+'/listbytime;jsessionid='
+                +jsessionid+'?id='+cid,null,function(result){
+            var result = eval('(' + result + ')');
+            console.log(result);
+            console.log(result.data.length);
+            var len=result.data.length;
+            if (result.code == 0) {
+                if(len==0){
+                    alert('暂无此时间段的数据！');
+                    return;
+                }else{
+                    for (var i = 0; i < len;i++ ) {
+                        console.log(result.data[i].time);
+                        sxdata.push(result.data[i].time);
+                        console.log(sxdata);
+                        sxdata1=sxdata.sort();
+                        console.log(sxdata1);
+
+                        var use_cpu=result.data[i].cpu.use_cpu;
+                        //console.log(use_cpu);
+                        //var ucpu1=(use_cpu * 100).toFixed(2);
+                        ucpu.push(use_cpu);
+
+                        var topc=result.data[i].cpu.fan[0];
+                        //console.log(topc);
+                        var dopc=result.data[i].cpu.fan[1];
+                        //console.log(dopc);
+                        tcpu.push(topc);
+                        dcpu.push(dopc);
+
+
+                        var mem1=result.data[i].mem.mem_total-result.data[i].mem.mem_free;
+                        data2.push(mem1);
+                        //console.log(data2);
+
+                        var pix1=parseInt(result.data[i].pix.pix_percent);
+                        pix.push(pix1);
+                        //console.log(pix);
+
+                        eth0_rx.push(result.data[i].eth0.eth0_rx);
+                        var ping=result.data[i].eth0.ping_value;
+                        ping_val.push(ping);
+
+
+                        var root1=parseInt(result.data[i].root.root_percent);
+                        root.push(root1);
+
+                        sys_io.push(result.data[i].sys.io_util);
+                    }
+                    console.log(sxdata);
+                    graphs1();
+                }
+            }else{
+                alert("请求错误！");
+                //window.location.href = 'login.html';
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>告警项配置</title>
+
+    <!--icheck-->
+    <link href="js/iCheck/skins/minimal/minimal.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/square.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/red.css" rel="stylesheet">
+    <link href="js/iCheck/skins/square/blue.css" rel="stylesheet">
+
+    <!--dashboard calendar-->
+    <link href="css/clndr.css" rel="stylesheet">
+
+    <!--Morris Chart CSS -->
+    <link rel="stylesheet" href="js/morris-chart/morris.css">
+
+    <!--common-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style1.css">
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <style>
+        .header-section{
+            background-color: #65CEA7;
+        }
+        .wrapper .panel-heading{
+            background-color: #65CEA7;
+            color:#fff;
+        }
+        hr{
+            margin: 0;
+        }
+        /*select*/
+        select {
+            /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+            border: solid 1px #d2d2d2;
+
+            /*很关键：将默认的select选择框样式清除*/
+            appearance:none;
+            -moz-appearance:none;
+            -webkit-appearance:none;
+            /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+            padding-right: 14px;
+        }
+        .sel .select11{
+            display: none;
+        }
+        .select{
+            width:80%;
+            min-height:295px;
+            margin:40px auto;
+        }
+        .select option{
+            width:150px;
+            height:30px;
+            padding:10px;
+        }
+        .search input{
+            border:1px solid #d2d2d2;
+            border-radius: 3px;
+        }
+        .form1 .col-lg-2{
+            margin-top: 50px;
+            min-height:295px;
+        }
+        .form1 .col-lg-2 .btns{
+            text-align: center;
+            margin-top: 50px;
+        }
+        .form1 .col-lg-2 .btn{
+            margin-top: 10px;
+        }
+        .text-right{
+            text-align: left;
+            margin-right: 15px;
+            margin-top: 10px;
+        }
+        .control-label{
+            text-align: right;
+        }
+        .bsel{
+            width: 100%;
+            /*height:350px;
+            overflow-y: scroll;
+            overflow-x: hidden;*/
+        }
+        .back-btn{
+            margin-bottom: 10px;
+        }
+    </style>
+
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <h4><a href="index.html"><span>Lumino</span>Admin</a></h4>
+        </div>
+
+        <!--<div class="logo-icon text-center">
+            <a href="index.html"><img src="images/logo_icon.png" alt=""></a>
+        </div>-->
+        <!--logo and iconic logo end-->
+        <div class="left-side-inner">
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list">
+                    <a href=""><i class="fa fa-laptop"></i> <span>告警信息管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li ><a onclick="indexlists();">告警信息列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list active">
+                    <a><i class="fa fa-book"></i> <span>我的监控项</span></a>
+                    <ul class="sub-menu-list">
+                        <li class="active"><a onclick="myalarm();">所有客户端列表</a></li>
+                        <!--<li class="active"><a onclick="alarmConfig();">告警项配置</a></li>
+                        <li><a onclick="collect();">采集项配置</a></li>-->
+                    </ul>
+                </li>
+                <li class="menu-list">
+                    <a onclick="collect();"><i class="fa fa-dashboard"></i> <span>采集项配置</span></a>
+                </li>
+            </ul>
+            <!--sidebar nav end-->
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--search start-->
+            <form class="searchform" action="index.html" method="post">
+                <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
+            </form>
+            <!--search end-->
+
+            <!--notification menu start  右侧登录信息-->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a  href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/photos/user-avatar.png" alt="" />
+                            <span id="uname">登录</span>
+                            <span class="caret"></span>
+                        </a>
+                        <ul id="user" class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#" disabled="true"><i class="fa fa-user"></i>修改密码</a></li>
+                            <!--<li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>-->
+                            <li><a disabled="true" onclick="loginOut();"><i class="fa fa-sign-out"></i>退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h1>告警项配置</h1>
+        </div>
+        <!-- page heading end-->
+        <hr/>
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel ">
+                        <div class="panel-heading panel-blue">告警项配置</div>
+                        <div class="panel-body">
+                            <a onclick="jumpToById();" class="back-btn btn btn-success"><span class="glyphicon glyphicon-share"></span>返回</a>
+                            <div class="row">
+                                <div class="col-lg-12" >
+                                    <form action="" class="form1">
+                                        <div class="row">
+                                            <!--<div class="col-lg-6">
+                                                <div class="sel">
+                                                    <select id="select1" class="select" multiple="multiple">
+                                                    </select>
+                                                </div>
+                                            </div>-->
+                                            <div class="col-lg-8">
+                                                <div class="bsel">
+                                                    <div class="cmxform form-horizontal adminex-form" >
+                                                        <div id="uform">
+                                                        </div>
+                                                        <div class="form-group text-right">
+                                                            <label class="col-lg-4"></label>
+                                                            <div class="col-lg-8">
+                                                                <a onclick="initdata();" class="btn btn-success">保存</a>
+                                                                <a href="" class="btn btn-default">取消</a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--<div class="text-right">
+                                            <a id="update" onclick="updateAlarm();" class="btn btn-success">保存</a>
+                                            <a href="" class="btn btn-default">取消</a>
+                                        </div>-->
+                                    </form>
+                                    <!--<table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>
+                                            待分配：<input id="unBindKey" type="text">
+                                            &nbsp;
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            已分配：<input id="bindKey" type="text">
+                                            &nbsp;
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select style="display: none" id="select11"  multiple="multiple">
+                                                <option value="1111">1111</option>
+                                                <option value="2222">2222</option>
+                                                <option value="1122">1122</option>
+                                                <option value="3333">3333</option>
+                                                <option value="1133">1133</option>
+                                                <option value="5555">5555</option>
+                                                <option value="5566">5566</option>
+                                                <option value="6666">6666</option>
+                                                <option value="1234">1234</option>
+                                            </select>
+                                            <select id="select1" style="width: 235px; height: 280px;" multiple="multiple">
+                                            </select>
+                                        </td>
+                                        <td align="center" width="5%">
+                                            <button type="button" id="add" style="width: 30px;">&gt;</button> <br><br>
+                                            <button type="button" id="add_all" style="width: 30px;">&gt;&gt;</button> <br><br>
+                                            <button type="button" id="remove" style="width: 30px;">&lt;</button> <br><br>
+                                            <button type="button" id="remove_all" style="width: 30px;">&lt;&lt;</button>
+                                        </td>
+                                        <td>
+
+                                            <select  style="width: 235px; height: 280px;" multiple="multiple" id="select2">
+                                                <option value="111123vbb1">vpx1111</option>
+                                                <option value="2s2222">2orvq222</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>-->
+                                </div>
+                            </div>
+                            <ul id="footer" class="pagination">
+                                <!--<li><a href="">首页</a></li>
+                                <li class="disabled"><a href="">上一页</a></li>
+                                <li class="active"><a href="">1</a></li>
+                                <li class="disabled"><a href="">下一页</a></li>
+                                <li><a href="">尾页</a></li>
+                                <li id="count"></li>
+                                -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.nicescroll.js"></script>
+
+
+<!--easy pie chart-->
+<script src="js/easypiechart/jquery.easypiechart.js"></script>
+<script src="js/easypiechart/easypiechart-init.js"></script>
+
+<!--Sparkline Chart-->
+<script src="js/sparkline/jquery.sparkline.js"></script>
+<script src="js/sparkline/sparkline-init.js"></script>
+
+<!--icheck -->
+<script src="js/iCheck/jquery.icheck.js"></script>
+<script src="js/icheck-init.js"></script>
+
+<!--Calendar-->
+<script src="js/calendar/clndr.js"></script>
+<script src="js/calendar/evnt.calendar.init.js"></script>
+<script src="js/calendar/moment-2.2.1.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+<!--common scripts for all pages-->
+
+<script src="js/scripts.js"></script>
+
+<script src="js/baiduTemplate.js"></script>
+
+<script id="t:table" type="text/html">
+    <@console.log(data.monitorItemsAlarm.length)@>
+    <@for (var i=0; i < data.monitorItemsAlarm.length; i++){ @>
+        <option value="<@=data.monitorItemsAlarm[i]@>">
+            <@=data.monitorItemsAlarm[i]@>
+            <@console.log(data.monitorItemsAlarm[i])@>
+        </option>
+
+    <@}@>
+</script>
+<script id="t1:table" type="text/html">
+    <div>
+    <p>修改：</p>
+            <div class="form-group ">
+                <label for="cpu-temp" class="control-label col-lg-4">cpu温度 ></label>
+                <div class="col-lg-8">
+                    <input cname='cpu_temp' class=" form-control" id="cpu-temp"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="use-cpu" class="control-label col-lg-4">cpu使用率 ></label>
+                <div class="col-lg-8">
+                <input cname='use_cpu' class=" form-control" id="use-cpu"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="eth0_rx" class="control-label col-lg-4">网口0接收速率 ></label>
+                <div class="col-lg-8">
+                <input cname='eth0_rx' class=" form-control" id="eth0_rx"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="eth0_tx" class="control-label col-lg-4">网口0发送速率 ></label>
+                <div class="col-lg-8">
+                <input cname='eth0_tx' class=" form-control" id="eth0_tx"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="ping_value" class="control-label col-lg-4">ping延时 ></label>
+                <div class="col-lg-8">
+                <input cname='ping_value' class=" form-control" id="ping_value"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="mem_free" class="control-label col-lg-4">剩余内存 < </label>
+                <div class="col-lg-8">
+                <input cname='mem_free' class=" form-control" id="mem_free"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="pix_percent" class="control-label col-lg-4">pix目录占用百分比 ></label>
+                <div class="col-lg-8">
+                <input cname='pix_percent' class=" form-control" id="pix_percent"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="root_percent" class="control-label col-lg-4">根目录百分比 ></label>
+                <div class="col-lg-8">
+                <input cname='root_percent' class=" form-control" id="root_percent"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <label for="io_util" class="control-label col-lg-4">IO使用率 ></label>
+                <div class="col-lg-8">
+                <input cname='io_util' class=" form-control" id="io_util"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="raid_ok" class="control-label col-lg-4">raid卡状态 < </label>
+                <div class="col-lg-8">
+                <input cname='raid_ok' class=" form-control" id="raid_ok"  type="text"  value="'+value[0]+'"/>
+                </div>
+            </div>
+        </div>
+</script>
+
+<script>
+    var bt=baidu.template;
+    var userName;
+    function getuserName(name) {
+        var reg1 = new RegExp("(^|&)" + name + "=([^&]*)(&|;)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r1 = decodeURI(window.location.search.substr(1)).match(reg1);
+        if (r1 != null) return unescape(r1[2]); return null;
+    }
+    userName = getuserName("userName");
+    //获取did
+    var cid;
+    function getCid(name) {
+        var reg = new RegExp("(^|:)" + name + "=([^:]*)(:|$)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r = decodeURI(window.location.search.substr(1)).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    cid=getCid("cid");
+    var jsessionid;
+    //获取jsessionid
+    function getSessionid(name) {
+        var reg = new RegExp("(^|;)" + name + "=([^;]*)(;|:)", "i");
+        //	    var r = window.location.search.substr(1).match(reg);
+        var r = decodeURI(window.location.search.substr(1)).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    jsessionid=getSessionid("jsessionid");
+    console.log(jsessionid);
+    function indexlists(){
+        window.location.href = 'index.html?userName='+userName+';jsessionid='+jsessionid;
+
+
+    }
+    function myalarm(){
+        window.location.href = 'myalarm.html?userName='+userName+';jsessionid='+jsessionid;
+    }
+    function jumpToById(){
+        window.location.href = 'collectByid.html?userName='+userName+';jsessionid='+jsessionid+':cid='+cid;
+    }
+    function collect(){
+        window.location.href='collect-itemconfig.html?userName='+userName+';jsessionid='+jsessionid;
+
+    }
+    function alarmConfig(){
+        location.reload();
+    }
+    /*function login(userName,passwd) {
+        $.post('http://192.168.0.217:6677//web/user/login?userName' +userName+ '&passwd=' + passwd, null, function (data) {
+            console.log(data);
+            var result=eval('('+data+')');
+            if (result.code== 0) {
+                if(userName=='admin'){
+                    $('#uname').html(userName+ ' (管理员)');
+                }else{
+                    $('#uname').html(userName+ ' (用户)');
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        })
+    }*/
+    function checkLogin(){
+        userName = getuserName("userName");
+        console.log(userName);
+        if(userName != null){
+            $('#uname').html(userName);
+            //$('#user').css("display","block");
+        }
+    }
+    checkLogin();
+
+    function loginOut(){
+        $.post("http://192.168.0.217:6677//web/user/logout",null,function(data){
+            var result=eval('('+data+')');
+            if(result.code== 0){
+                $('#uname').html('登录');
+                //location.reload();
+                //console.log($('#uname').html());
+                window.location.href = 'login.html';
+            }else{
+                alert("请求错误！");
+            }
+        })
+
+    }
+    /*已采集*/
+    function alarminit(){
+        var str='';
+        $.get('http://192.168.0.217:6677//web/client/'+cid+';jsessionid='+jsessionid,null,function(result){
+            var result=eval('('+result+')');
+            var len=result.data.monitorItemsAlarm.length;
+            /*console.log(result.data.monitorItemsAlarm[0]);
+            console.log(result.data.monitorItemsAlarm[1]);
+            var text=result.data.monitorItemsAlarm[1];
+            var value = text.replace(/[^0-9]/ig,"");
+            console.log(value);*/
+            var text=[];
+            var value=[];
+            //var txt=[];
+            if(result.code == 0){
+                console.log(this);
+                for(var i=0;i<len;i++){
+                    text.push(result.data.monitorItemsAlarm[i]);
+                    //txt.push(text[i].split(" ")[0]);
+                    value.push(text[i].replace(/[^0-9]/ig,""));
+                    
+                }
+                str='<div class="form-group ">'
+                        +'<label for="cpu-temp" class="control-label col-lg-4">cpu温度 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="cpu_temp" class=" form-control" id="cpu-temp"  type="text"  value="'+value[0]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="use-cpu" class="control-label col-lg-4">cpu使用率 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="use_cpu" class=" form-control" id="use-cpu"  type="text"  value="'+value[1]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="eth0_rx" class="control-label col-lg-4">网口0接收速率 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="eth0_rx" class=" form-control" id="eth0_rx"  type="text"  value="'+value[2]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="eth0_tx" class="control-label col-lg-4">网口0发送速率 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="eth0_tx" class=" form-control" id="eth0_tx"  type="text"  value="'+value[3]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="ping_value" class="control-label col-lg-4">ping延时 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="ping_value" class=" form-control" id="ping_value"  type="text"  value="'+value[4]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="mem_free" class="control-label col-lg-4">剩余内存 < </label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="mem_free" class=" form-control" id="mem_free"  type="text"  value="'+value[5]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="pix_percent" class="control-label col-lg-4">pix目录占用百分比 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="pix_percent" class=" form-control" id="pix_percent"  type="text"  value="'+value[6]+'"/>'
+                        +'</div>'
+                        +'</div>'
+
+                        +'<div class="form-group ">'
+                        +'<label for="root_percent" class="control-label col-lg-4">根目录百分比 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="root_percent" class=" form-control" id="root_percent"  type="text"  value="'+value[7]+'"/>'
+                        +'</div>'
+                        +'</div>'
+
+                        +'<div class="form-group ">'
+                        +'<label for="io_util" class="control-label col-lg-4">IO使用率 ></label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="io_util" class=" form-control" id="io_util"  type="text"  value="'+value[8]+'"/>'
+                        +'</div>'
+                        +'</div>'
+                        +'<div class="form-group ">'
+                        +'<label for="raid_ok" class="control-label col-lg-4">raid卡状态 < </label>'
+                        +'<div class="col-lg-8">'
+                        +'<input cname="raid_ok" class=" form-control" id="raid_ok"  type="text"  value="'+value[9]+'"/>'
+                        +'</div>'
+                        +'</div>';
+                console.log(text);
+                //console.log(txt);
+                console.log(value);
+                //var tableHtml1=bt('t1:table',result);
+                $('#uform').html();
+                $('#uform').html(str);
+            }else{
+                alert("请求错误！");
+                window.location.href = 'login.html';
+            }
+        })
+    }
+    alarminit();
+    /*更新报警信息项*/
+    var alarmAfter=[];
+    var ops=[];
+    var ops1=[];
+    //var ops2='';
+    var lg;
+    function initdata(){
+        var txt = $('#uform').find(':text');
+        var tt;
+        console.log(txt);
+        for (var i = 0; i < txt.length; i++) {
+            tt=txt.eq(i).val();
+            console.log(tt);
+            ops.push(tt); // 将文本框的值添加到数组中
+            var tn=txt.eq(i).attr('cname');
+            console.log(tn);
+            if(tn=='raid_ok'||tn=='mem_free'){
+                lg=" < ";
+            }else{
+                lg=" > ";
+            }
+            ops1.push(tn+lg+tt);
+        }
+        //console.info(ops);
+        console.log(ops1);
+        alarmAfter=ops1.join("@");
+        console.log(alarmAfter);
+
+        if(confirm("确认要修改吗？")){
+            //alert(commentIds);
+            $.post("http://192.168.0.217:6677//web/client/monitorItemsAlarm/"+cid+";jsessionid="+jsessionid+"?monitorItemsAlarm="+alarmAfter,null, function(result){
+                //alert(result);
+                var result = eval('('+result+')');
+                if(result.code==0){
+                    alert("修改成功！");
+                    tt='';
+                    alarminit();
+                }else{
+                    alert('保存失败!');
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

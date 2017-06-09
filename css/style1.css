@@ -1,0 +1,19 @@
+.notification-menu .btn-default{
+    color:#fff;
+    background-color: #65CEA7;
+}
+.logo h4 a{
+    font-size: 24px;
+    color:#fff;
+}
+.logo h4 span{
+    color:#65CEA7;
+}
+.btn-success{
+    background-color: #65CEA7;
+    border: 1px solid #65CEA7;
+}
+.btn-danger{
+    background-color: #F55267;
+    border: 1px solid #F55267;
+}
