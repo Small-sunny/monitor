@@ -365,6 +365,8 @@
     }
     /*点击处理*/
     function handle(did){
+        var msg='111';
+        alert('处理原因：'+msg);
         if(confirm("确认要处理吗？")) {
             $.post('http://192.168.0.217:6677//web/alarmlogs/' + did + ';jsessionid=' + jsessionid, null, function (result) {
                 var result = eval('(' + result + ')');

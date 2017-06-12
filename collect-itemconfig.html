@@ -221,7 +221,7 @@
                                                 <div class="search">已监控:</div>
                                                 <div class="sel">
                                                     <select class="select11" id="select11"  multiple="multiple">
-                                                        <option value="cpu_temp">cpu温度</option>
+                                                        <!--<option value="cpu_temp">cpu温度</option>
                                                         <option value="use_cpu">CPU使用率</option>
 
                                                         <option value="eth0_rx">网口0接收速率</option>
@@ -241,6 +241,7 @@
                                                         <option value="io_util">IO使用率</option>
                                                         <option value="raid_ok">raid卡状态</option>
                                                         <option value="sys_uptime">系统开机时间</option>
+                                                    -->
                                                     </select>
                                                     <select id="select1" class="select" multiple="multiple">
                                                     </select>
@@ -277,7 +278,7 @@
                                         <tr>
 
                                             <th>配置名称</th>
-                                            <th>添加时间</th>
+                                            <th>配置项ID</th>
                                             <th>操作</th>
                                         </tr>
                                         </thead>
@@ -350,134 +351,8 @@
     <tr >
         <td><@=data[i].remark@></td>
         <td>
-            <a data-toggle="modal" data-target="#myModal"><@=data[i].id@></a>
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="c-content">
-                                <div class="col-lg-6">
-                                    <h4>已监控：</h4>
-                                    <ul class="list-group" id="collectConfig">
-
-                                        <@ for (var j = 0; j < item.length; j++){ @>
-                                        <@if(item[j].indexOf("+")!=-1){@>
-                                        <@item[j]=item[j].replace("+","");@>
-                                        <li class="list-group-item">
-                                            <@if(item[j]=='use_cpu'){@>
-                                            cpu使用率
-                                            <@}@>
-                                            <@if(item[j]=='eth0_tx'){@>
-                                            eth0网卡出网速
-                                            <@}@>
-                                            <@if(item[j]=='ping_value'){@>
-                                            ping延时
-                                            <@}@>
-                                            <@if(item[j]=='mem_free'){@>
-                                            内存占用
-                                            <@}@>
-                                            <@if(item[j]=='mem_total'){@>
-                                            内存总大小
-                                            <@}@>
-                                            <@if(item[j]=='pix_percent'){@>
-                                            pix占比
-                                            <@}@>
-                                            <@if(item[j]=='pix_total'){@>
-                                            pix总大小
-                                            <@}@>
-                                            <@if(item[j]=='root_percent'){@>
-                                            根目录占比
-                                            <@}@>
-                                            <@if(item[j]=='root_total'){@>
-                                            根目录总大小
-                                            <@}@>
-                                            <@if(item[j]=='current_time'){@>
-                                            脚本执行时间
-                                            <@}@>
-                                            <@if(item[j]=='io_util'){@>
-                                            磁盘io使用率
-                                            <@}@>
-                                            <@if(item[j]=='raid_ok'){@>
-                                            raid卡是否正常
-                                            <@}@>
-                                            <@if(item[j]=='sys_uptime'){@>
-                                            系统开机时长
-                                            <@}@>
-                                            <@if(item[j]=='cpu_temp'){@>
-                                            cpu温度
-                                            <@}@>
-                                            <@if(item[j]=='eth0_rx'){@>
-                                            eth0网卡入网速
-                                            <@}@>
-                                        </li>
-                                        <@}@>
-                                        <@}@>
-                                    </ul>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <h4>未监控：</h4>
-                                    <ul class="list-group">
-                                        <@ for (var j = 0; j < item.length; j++){ @>
-                                        <@if(item[j].indexOf("-")!=-1){@>
-                                        <@item[j]=item[j].replace("-","");@>
-
-                                        <li class="list-group-item">
-                                            <@if(item[j]=='use_cpu'){@>
-                                            cpu使用率
-                                            <@}@>
-                                            <@if(item[j]=='eth0_tx'){@>
-                                            eth0网卡出网速
-                                            <@}@>
-                                            <@if(item[j]=='ping_value'){@>
-                                            ping延时
-                                            <@}@>
-                                            <@if(item[j]=='mem_free'){@>
-                                            内存占用
-                                            <@}@>
-                                            <@if(item[j]=='mem_total'){@>
-                                            内存总大小
-                                            <@}@>
-                                            <@if(item[j]=='pix_percent'){@>
-                                            pix占比
-                                            <@}@>
-                                            <@if(item[j]=='pix_total'){@>
-                                            pix总大小
-                                            <@}@>
-                                            <@if(item[j]=='root_percent'){@>
-                                            根目录占比
-                                            <@}@>
-                                            <@if(item[j]=='root_total'){@>
-                                            根目录总大小
-                                            <@}@>
-                                            <@if(item[j]=='current_time'){@>
-                                            脚本执行时间
-                                            <@}@>
-                                            <@if(item[j]=='io_util'){@>
-                                            磁盘io使用率
-                                            <@}@>
-                                            <@if(item[j]=='raid_ok'){@>
-                                            raid卡是否正常
-                                            <@}@>
-                                            <@if(item[j]=='sys_uptime'){@>
-                                            系统开机时长
-                                            <@}@>
-                                            <@if(item[j]=='cpu_temp'){@>
-                                            cpu温度
-                                            <@}@>
-                                            <@if(item[j]=='eth0_rx'){@>
-                                            eth0网卡入网速
-                                            <@}@>
-                                        </li>
-                                        <@}@>
-                                        <@}@>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!--<a data-toggle="modal" data-target="#myModal"><@=data[i].id@></a>-->
+            <a onclick="collectDetail('<@=data[i].id@>');"><@=data[i].id@></a>
         </td>
         <td>
             <a onclick="deleteList('<@=data[i].id@>');" class="btn btn-success">删除</a>
@@ -485,6 +360,179 @@
     </tr>
     <@}@>
 
+</script>
+<script id="t2:table" type="text/html">
+    <@ for (var i = 0; i < data.length; i++){ @>
+    <@var item=data[i].collectMonitorItems;@>
+        <@ for (var j = 0; j < item.length; j++){ @>
+            <@if(item[j].indexOf("+")!=-1){@>
+                <@item[j]=item[j].replace("+","");@>
+            <option value="<@=item[j]@>">
+                <@if(item[j]=='use_cpu'){@>
+                cpu使用率
+                <@}@>
+                <@if(item[j]=='eth0_tx'){@>
+                eth0网卡出网速
+                <@}@>
+                <@if(item[j]=='ping_value'){@>
+                ping延时
+                <@}@>
+                <@if(item[j]=='mem_free'){@>
+                内存占用
+                <@}@>
+                <@if(item[j]=='mem_total'){@>
+                内存总大小
+                <@}@>
+                <@if(item[j]=='pix_percent'){@>
+                pix占比
+                <@}@>
+                <@if(item[j]=='pix_total'){@>
+                pix总大小
+                <@}@>
+                <@if(item[j]=='root_percent'){@>
+                根目录占比
+                <@}@>
+                <@if(item[j]=='root_total'){@>
+                根目录总大小
+                <@}@>
+                <@if(item[j]=='current_time'){@>
+                脚本执行时间
+                <@}@>
+                <@if(item[j]=='io_util'){@>
+                磁盘io使用率
+                <@}@>
+                <@if(item[j]=='raid_ok'){@>
+                raid卡是否正常
+                <@}@>
+                <@if(item[j]=='sys_uptime'){@>
+                系统开机时长
+                <@}@>
+                <@if(item[j]=='cpu_temp'){@>
+                cpu温度
+                <@}@>
+                <@if(item[j]=='eth0_rx'){@>
+                eth0网卡入网速
+                <@}@>
+            </option>
+        <@}@>
+        <@}@>
+    <@}@>
+</script>
+<script id="t3:table" type="text/html">
+    <@ for (var i = 0; i < data.length; i++){ @>
+    <@var item=data[i].collectMonitorItems;@>
+    <@ for (var j = 0; j < item.length; j++){ @>
+    <@if(item[j].indexOf("-")!=-1){@>
+    <@item[j]=item[j].replace("-","");@>
+    <option value="<@=item[j]@>">
+        <@if(item[j]=='use_cpu'){@>
+        cpu使用率
+        <@}@>
+        <@if(item[j]=='eth0_tx'){@>
+        eth0网卡出网速
+        <@}@>
+        <@if(item[j]=='ping_value'){@>
+        ping延时
+        <@}@>
+        <@if(item[j]=='mem_free'){@>
+        内存占用
+        <@}@>
+        <@if(item[j]=='mem_total'){@>
+        内存总大小
+        <@}@>
+        <@if(item[j]=='pix_percent'){@>
+        pix占比
+        <@}@>
+        <@if(item[j]=='pix_total'){@>
+        pix总大小
+        <@}@>
+        <@if(item[j]=='root_percent'){@>
+        根目录占比
+        <@}@>
+        <@if(item[j]=='root_total'){@>
+        根目录总大小
+        <@}@>
+        <@if(item[j]=='current_time'){@>
+        脚本执行时间
+        <@}@>
+        <@if(item[j]=='io_util'){@>
+        磁盘io使用率
+        <@}@>
+        <@if(item[j]=='raid_ok'){@>
+        raid卡是否正常
+        <@}@>
+        <@if(item[j]=='sys_uptime'){@>
+        系统开机时长
+        <@}@>
+        <@if(item[j]=='cpu_temp'){@>
+        cpu温度
+        <@}@>
+        <@if(item[j]=='eth0_rx'){@>
+        eth0网卡入网速
+        <@}@>
+    </option>
+    <@}@>
+    <@}@>
+    <@}@>
+</script>
+<script id="t1:table" type="text/html">
+    <@for(var i=0;i< c_keyList.length ;i++){@>
+        <@if(c_keyList[i]=='use_cpu'){@>
+            <option value="<@=c_keyList[i]@>">cpu使用率</option>
+        <@}@>
+        <@if(c_keyList[i]=='cpu_temp'){@>
+            <option value="<@=c_keyList[i]@>">cpu温度</option>
+        <@}@>
+    <@}@>
+    <@for(var i=0;i< e_keyList.length ;i++){@>
+        <@if(e_keyList[i]=='eth0_tx'){@>
+            <option value="<@=e_keyList[i]@>">eth0网卡出网速</option>
+        <@}@>
+        <@if(e_keyList[i]=='eth0_rx'){@>
+            <option value="<@=e_keyList[i]@>">eth0网卡入网速</option>
+        <@}@>
+        <@if(e_keyList[i]=='ping_value'){@>
+            <option value="<@=e_keyList[i]@>">ping延时</option>
+        <@}@>
+    <@}@>
+    <@for(var i=0;i< m_keyList.length ;i++){@>
+        <@if(m_keyList[i]=='mem_free'){@>
+            <option value="<@=m_keyList[i]@>">内存占用</option>
+        <@}@>
+        <@if(m_keyList[i]=='mem_total'){@>
+            <option value="<@=m_keyList[i]@>">内存总大小</option>
+        <@}@>
+    <@}@>
+    <@for(var i=0;i< p_keyList.length ;i++){@>
+        <@if(p_keyList[i]=='pix_percent'){@>
+            <option value="<@=p_keyList[i]@>">pix占比</option>
+        <@}@>
+        <@if(p_keyList[i]=='pix_total'){@>
+            <option value="<@=p_keyList[i]@>">pix总大小</option>
+        <@}@>
+    <@}@>
+    <@for(var i=0;i< r_keyList.length ;i++){@>
+        <@if(r_keyList[i]=='root_percent'){@>
+            <option value="<@=r_keyList[i]@>">根目录占比</option>
+        <@}@>
+        <@if(r_keyList[i]=='root_total'){@>
+            <option value="<@=r_keyList[i]@>">根目录总大小</option>
+        <@}@>
+    <@}@>
+    <@for(var i=0;i< s_keyList.length ;i++){@>
+        <@if(s_keyList[i]=='current_time'){@>
+            <option value="<@=s_keyList[i]@>">脚本执行时间</option>
+        <@}@>
+        <@if(s_keyList[i]=='io_util'){@>
+            <option value="<@=s_keyList[i]@>">磁盘io使用率</option>
+        <@}@>
+        <@if(s_keyList[i]=='raid_ok'){@>
+            <option value="<@=s_keyList[i]@>">raid卡是否正常</option>
+        <@}@>
+        <@if(s_keyList[i]=='sys_uptime'){@>
+            <option value="<@=s_keyList[i]@>">系统开机时长</option>
+        <@}@>
+    <@}@>
 </script>
 <script type="text/javascript">
     var leftInputLength = 0;
@@ -612,28 +660,77 @@
         })
 
     }
+    var c_keyList=[];
+    var e_keyList=[];
+    var m_keyList=[];
+    var p_keyList=[];
+    var r_keyList=[];
+    var s_keyList=[];
     /*采集项参考*/
         function collectMonitorItems(){
             $.get('http://192.168.0.217:6677//web/client/monitorItemsRef;jsessionid='+jsessionid,null,function(result){
                 var result=eval('('+result+')');
                 console.log(result.data);
+                console.log(result.data.cpu);
+                console.log(result.data.eth0);
+                console.log(result.data.mem);
+                console.log(result.data.pix);
+                console.log(result.data.root);
                 console.log(result.data.sys);
+                var data_cpu=result.data.cpu;
+                var data_eth0=result.data.eth0;
+                var data_mem=result.data.mem;
+                var data_pix=result.data.pix;
+                var data_root=result.data.root;
+                var data_sys=result.data.sys;
+                for(var key1 in data_cpu){
+                    c_keyList.push(key1);
+                }
+                for(var key2 in data_eth0){
+                    e_keyList.push(key2);
+                }
+                for(var key3 in data_mem){
+                    m_keyList.push(key3);
+                }
+                for(var key4 in data_pix){
+                    p_keyList.push(key4);
+                }
+                for(var key5 in data_root){
+                    r_keyList.push(key5);
+                }
+                for(var key6 in data_sys){
+                    s_keyList.push(key6);
+                }
                 if(result.code == 0){
-                    var tableHtml=bt('t:table',result);
+                    var tableHtml1=bt('t1:table',result);
                     $('#select1').html();
-                    $('#select1').html(tableHtml);
-                    /*获取key*/
-                    var cpu1=result.data.cpu;
-                    for(var key in cpu1){
-                        console.log(key);
-                    }
+                    $('#select1').html(tableHtml1);
                 }else{
                     alert("请求错误！");
                     window.location.href = 'login.html';
                 }
             })
         }
-        //collectMonitorItems();
+        collectMonitorItems();
+    function collectDetail(conid){
+        /*$.get("http://192.168.0.217:6677//web/collectioncof/list;jsessionid="+jsessionid+"?pageNum="+1+'&size='+10,null, function(result){
+            console.log(result);
+            //alert(result);
+            var result = eval('('+result+')');
+            //$("#select2").html();
+            //console.log(result);
+            if(result.code==0){
+                var tableHtml2=bt('t2:table',result);
+                $('#select1').html();
+                $('#select1 ').html(tableHtml2);
+                var tableHtml3=bt('t3:table',result);
+                $('#select2').html();
+                $('#select2').html(tableHtml3);
+            }else{
+                alert('请求错误!');
+            }
+        });*/
+    }
     /*更新采集项*/
     /*var str=encodeURIComponent('+edeee');
     console.log(str);*/
@@ -792,5 +889,132 @@
         return pageCode
     }
 </script>
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="c-content">
+                                <div class="col-lg-6">
+                                    <h4>已监控：</h4>
+                                    <ul class="list-group" id="collectConfig">
+
+                                        <@ for (var j = 0; j < item.length; j++){ @>
+                                        <@if(item[j].indexOf("+")!=-1){@>
+                                        <@item[j]=item[j].replace("+","");@>
+                                        <li class="list-group-item">
+                                            <@if(item[j]=='use_cpu'){@>
+                                            cpu使用率
+                                            <@}@>
+                                            <@if(item[j]=='eth0_tx'){@>
+                                            eth0网卡出网速
+                                            <@}@>
+                                            <@if(item[j]=='ping_value'){@>
+                                            ping延时
+                                            <@}@>
+                                            <@if(item[j]=='mem_free'){@>
+                                            内存占用
+                                            <@}@>
+                                            <@if(item[j]=='mem_total'){@>
+                                            内存总大小
+                                            <@}@>
+                                            <@if(item[j]=='pix_percent'){@>
+                                            pix占比
+                                            <@}@>
+                                            <@if(item[j]=='pix_total'){@>
+                                            pix总大小
+                                            <@}@>
+                                            <@if(item[j]=='root_percent'){@>
+                                            根目录占比
+                                            <@}@>
+                                            <@if(item[j]=='root_total'){@>
+                                            根目录总大小
+                                            <@}@>
+                                            <@if(item[j]=='current_time'){@>
+                                            脚本执行时间
+                                            <@}@>
+                                            <@if(item[j]=='io_util'){@>
+                                            磁盘io使用率
+                                            <@}@>
+                                            <@if(item[j]=='raid_ok'){@>
+                                            raid卡是否正常
+                                            <@}@>
+                                            <@if(item[j]=='sys_uptime'){@>
+                                            系统开机时长
+                                            <@}@>
+                                            <@if(item[j]=='cpu_temp'){@>
+                                            cpu温度
+                                            <@}@>
+                                            <@if(item[j]=='eth0_rx'){@>
+                                            eth0网卡入网速
+                                            <@}@>
+                                        </li>
+                                        <@}@>
+                                        <@}@>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <h4>未监控：</h4>
+                                    <ul class="list-group">
+                                        <@ for (var j = 0; j < item.length; j++){ @>
+                                        <@if(item[j].indexOf("-")!=-1){@>
+                                        <@item[j]=item[j].replace("-","");@>
+
+                                        <li class="list-group-item">
+                                            <@if(item[j]=='use_cpu'){@>
+                                            cpu使用率
+                                            <@}@>
+                                            <@if(item[j]=='eth0_tx'){@>
+                                            eth0网卡出网速
+                                            <@}@>
+                                            <@if(item[j]=='ping_value'){@>
+                                            ping延时
+                                            <@}@>
+                                            <@if(item[j]=='mem_free'){@>
+                                            内存占用
+                                            <@}@>
+                                            <@if(item[j]=='mem_total'){@>
+                                            内存总大小
+                                            <@}@>
+                                            <@if(item[j]=='pix_percent'){@>
+                                            pix占比
+                                            <@}@>
+                                            <@if(item[j]=='pix_total'){@>
+                                            pix总大小
+                                            <@}@>
+                                            <@if(item[j]=='root_percent'){@>
+                                            根目录占比
+                                            <@}@>
+                                            <@if(item[j]=='root_total'){@>
+                                            根目录总大小
+                                            <@}@>
+                                            <@if(item[j]=='current_time'){@>
+                                            脚本执行时间
+                                            <@}@>
+                                            <@if(item[j]=='io_util'){@>
+                                            磁盘io使用率
+                                            <@}@>
+                                            <@if(item[j]=='raid_ok'){@>
+                                            raid卡是否正常
+                                            <@}@>
+                                            <@if(item[j]=='sys_uptime'){@>
+                                            系统开机时长
+                                            <@}@>
+                                            <@if(item[j]=='cpu_temp'){@>
+                                            cpu温度
+                                            <@}@>
+                                            <@if(item[j]=='eth0_rx'){@>
+                                            eth0网卡入网速
+                                            <@}@>
+                                        </li>
+                                        <@}@>
+                                        <@}@>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
 </body>
 </html>
