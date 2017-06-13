@@ -265,12 +265,12 @@
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            <a onclick="addConfig();" class="btn btn-success">保存</a>
+                                            <a onclick="addConfig();" class="btn btn-success">新建</a>
+                                            <a onclick="addConfig();" class="btn btn-danger">修改</a>
                                             <a href="" class="btn btn-default">取消</a>
                                         </div>
                                     </form>
                                 </div>
-
                                 <div class="col-lg-6">
                                     <h4 >所有配置列表：</h4>
                                     <table id="configList" class="table table-hover">
@@ -297,7 +297,82 @@
                                         -->
                                     </ul>
                                 </div>
+                            </div>
+                            <div class="row">
 
+                                <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <div class="c-content">
+                                                                <div class="col-lg-6" >
+                                                                    <form action="" class="form1">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-8">
+                                                                                <label>请输入采集配置备注: <input id="remark" type="text" value="" ></label>
+                                                                                <p></p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-5">
+
+                                                                                <div class="search">已监控:</div>
+                                                                                <div class="sel">
+                                                                                    <select class="select11" id="select11"  multiple="multiple">
+                                                                                        &lt;!&ndash;<option value="cpu_temp">cpu温度</option>
+                                                                                        <option value="use_cpu">CPU使用率</option>
+
+                                                                                        <option value="eth0_rx">网口0接收速率</option>
+                                                                                        <option value="eth0_tx">网口0发送速率</option>
+                                                                                        <option value="ping_value">ping延时</option>
+
+                                                                                        <option value="mem_free">剩余内存</option>
+                                                                                        <option value="mem_total">总内存</option>
+
+                                                                                        <option value="pix_percent">pix目录占用百分比</option>
+                                                                                        <option value="pix_total">pix总目录大小</option>
+
+                                                                                        <option value="root_percent">根目录百分比</option>
+                                                                                        <option value="root_total">根目录总大小</option>
+
+                                                                                        <option value="current_time">系统当前时间</option>
+                                                                                        <option value="io_util">IO使用率</option>
+                                                                                        <option value="raid_ok">raid卡状态</option>
+                                                                                        <option value="sys_uptime">系统开机时间</option>
+                                                                                    &ndash;&gt;
+                                                                                    </select>
+                                                                                    <select id="select1" class="select" multiple="multiple">
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-2">
+                                                                                <div class="btns">
+                                                                                    <a id="add" class="btn btn-success">&gt;</a> <br>
+                                                                                    <a id="add_all" class="btn btn-success">&gt;&gt;</a> <br>
+                                                                                    <a id="remove" class="btn btn-danger">&lt;</a> <br>
+                                                                                    <a id="remove_all" class="btn btn-danger">&lt;&lt;</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-5">
+                                                                                <div class="search">未监控：</div>
+                                                                                <div class="bsel">
+                                                                                    <select  class="select" multiple="multiple" id="select2">
+
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-right">
+                                                                            <a onclick="addConfig();" class="btn btn-success">保存</a>
+                                                                            <a href="" class="btn btn-default">取消</a>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>-->
                             </div>
 
 
@@ -888,132 +963,6 @@
         return pageCode
     }
 </script>
-<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-body">
-                            <div class="c-content">
-                                <div class="col-lg-6">
-                                    <h4>已监控：</h4>
-                                    <ul class="list-group" id="collectConfig">
 
-                                        <@ for (var j = 0; j < item.length; j++){ @>
-                                        <@if(item[j].indexOf("+")!=-1){@>
-                                        <@item[j]=item[j].replace("+","");@>
-                                        <li class="list-group-item">
-                                            <@if(item[j]=='use_cpu'){@>
-                                            cpu使用率
-                                            <@}@>
-                                            <@if(item[j]=='eth0_tx'){@>
-                                            eth0网卡出网速
-                                            <@}@>
-                                            <@if(item[j]=='ping_value'){@>
-                                            ping延时
-                                            <@}@>
-                                            <@if(item[j]=='mem_free'){@>
-                                            内存占用
-                                            <@}@>
-                                            <@if(item[j]=='mem_total'){@>
-                                            内存总大小
-                                            <@}@>
-                                            <@if(item[j]=='pix_percent'){@>
-                                            pix占比
-                                            <@}@>
-                                            <@if(item[j]=='pix_total'){@>
-                                            pix总大小
-                                            <@}@>
-                                            <@if(item[j]=='root_percent'){@>
-                                            根目录占比
-                                            <@}@>
-                                            <@if(item[j]=='root_total'){@>
-                                            根目录总大小
-                                            <@}@>
-                                            <@if(item[j]=='current_time'){@>
-                                            脚本执行时间
-                                            <@}@>
-                                            <@if(item[j]=='io_util'){@>
-                                            磁盘io使用率
-                                            <@}@>
-                                            <@if(item[j]=='raid_ok'){@>
-                                            raid卡是否正常
-                                            <@}@>
-                                            <@if(item[j]=='sys_uptime'){@>
-                                            系统开机时长
-                                            <@}@>
-                                            <@if(item[j]=='cpu_temp'){@>
-                                            cpu温度
-                                            <@}@>
-                                            <@if(item[j]=='eth0_rx'){@>
-                                            eth0网卡入网速
-                                            <@}@>
-                                        </li>
-                                        <@}@>
-                                        <@}@>
-                                    </ul>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <h4>未监控：</h4>
-                                    <ul class="list-group">
-                                        <@ for (var j = 0; j < item.length; j++){ @>
-                                        <@if(item[j].indexOf("-")!=-1){@>
-                                        <@item[j]=item[j].replace("-","");@>
-
-                                        <li class="list-group-item">
-                                            <@if(item[j]=='use_cpu'){@>
-                                            cpu使用率
-                                            <@}@>
-                                            <@if(item[j]=='eth0_tx'){@>
-                                            eth0网卡出网速
-                                            <@}@>
-                                            <@if(item[j]=='ping_value'){@>
-                                            ping延时
-                                            <@}@>
-                                            <@if(item[j]=='mem_free'){@>
-                                            内存占用
-                                            <@}@>
-                                            <@if(item[j]=='mem_total'){@>
-                                            内存总大小
-                                            <@}@>
-                                            <@if(item[j]=='pix_percent'){@>
-                                            pix占比
-                                            <@}@>
-                                            <@if(item[j]=='pix_total'){@>
-                                            pix总大小
-                                            <@}@>
-                                            <@if(item[j]=='root_percent'){@>
-                                            根目录占比
-                                            <@}@>
-                                            <@if(item[j]=='root_total'){@>
-                                            根目录总大小
-                                            <@}@>
-                                            <@if(item[j]=='current_time'){@>
-                                            脚本执行时间
-                                            <@}@>
-                                            <@if(item[j]=='io_util'){@>
-                                            磁盘io使用率
-                                            <@}@>
-                                            <@if(item[j]=='raid_ok'){@>
-                                            raid卡是否正常
-                                            <@}@>
-                                            <@if(item[j]=='sys_uptime'){@>
-                                            系统开机时长
-                                            <@}@>
-                                            <@if(item[j]=='cpu_temp'){@>
-                                            cpu温度
-                                            <@}@>
-                                            <@if(item[j]=='eth0_rx'){@>
-                                            eth0网卡入网速
-                                            <@}@>
-                                        </li>
-                                        <@}@>
-                                        <@}@>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
 </body>
 </html>

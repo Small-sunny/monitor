@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e25e5e23-9573-44fd-b459-0eb3f104fbdc" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/alarm-details.html" afterPath="$PROJECT_DIR$/alarm-details.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/collect-itemconfig.html" afterPath="$PROJECT_DIR$/collect-itemconfig.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.html" afterPath="$PROJECT_DIR$/login.html" />
     </list>
     <ignored path="monitor3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/login.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="84" column="22" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.2278481">
+              <caret line="6" column="46" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -129,17 +127,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="collect-itemconfig.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="collect-itemconfig.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/collect-itemconfig.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="16.061186">
-              <caret line="819" column="47" selection-start-line="819" selection-start-column="47" selection-end-line="819" selection-end-column="47" />
+            <state vertical-scroll-proportion="-2.55">
+              <caret line="428" column="84" selection-start-line="428" selection-start-column="84" selection-end-line="428" selection-end-column="84" />
               <folding>
+                <element signature="n#div#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#div#1;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="e#12974#19880#0" expanded="false" />
                 <element signature="n#script#19;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#script#20;n#body#0;n#html#0;n#!!top" expanded="false" />
+                <element signature="n#script#21;n#body#0;n#html#0;n#!!top" expanded="false" />
                 <element signature="n#script#22;n#body#0;n#html#0;n#!!top" expanded="false" />
-                <element signature="e#26001#26912#0" expanded="false" />
-                <element signature="e#33008#40113#0" expanded="false" />
+                <element signature="e#33120#34031#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -179,11 +179,11 @@
         <option value="$PROJECT_DIR$/alarm-configuration.html" />
         <option value="$PROJECT_DIR$/monitor-graphs.html" />
         <option value="$PROJECT_DIR$/collect-config.html" />
-        <option value="$PROJECT_DIR$/login.html" />
         <option value="$PROJECT_DIR$/collectByid.html" />
         <option value="$PROJECT_DIR$/alarm-details.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/collect-itemconfig.html" />
+        <option value="$PROJECT_DIR$/login.html" />
       </list>
     </option>
   </component>
@@ -472,11 +472,13 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="180" column="48" selection-start-line="180" selection-start-column="48" selection-end-line="180" selection-end-column="48" />
           <folding>
+            <element signature="n#div#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#div#1;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#12974#19880#0" expanded="false" />
             <element signature="n#script#19;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#20;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#21;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#22;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#26001#26912#0" expanded="false" />
-            <element signature="e#33008#40113#0" expanded="false" />
+            <element signature="e#33120#34031#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -575,11 +577,13 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="180" column="48" selection-start-line="180" selection-start-column="48" selection-end-line="180" selection-end-column="48" />
           <folding>
+            <element signature="n#div#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#div#1;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#12974#19880#0" expanded="false" />
             <element signature="n#script#19;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#20;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#21;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#22;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#26001#26912#0" expanded="false" />
-            <element signature="e#33008#40113#0" expanded="false" />
+            <element signature="e#33120#34031#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -669,11 +673,13 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="180" column="48" selection-start-line="180" selection-start-column="48" selection-end-line="180" selection-end-column="48" />
           <folding>
+            <element signature="n#div#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#div#1;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#12974#19880#0" expanded="false" />
             <element signature="n#script#19;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#20;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#21;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#22;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#26001#26912#0" expanded="false" />
-            <element signature="e#33008#40113#0" expanded="false" />
+            <element signature="e#33120#34031#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -861,14 +867,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="22" selection-start-line="84" selection-start-column="22" selection-end-line="84" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.0166667">
@@ -887,15 +885,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/collect-itemconfig.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="16.061186">
-          <caret line="819" column="47" selection-start-line="819" selection-start-column="47" selection-end-line="819" selection-end-column="47" />
+        <state vertical-scroll-proportion="-2.55">
+          <caret line="428" column="84" selection-start-line="428" selection-start-column="84" selection-end-line="428" selection-end-column="84" />
           <folding>
+            <element signature="n#div#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#2;n#div#1;n#section#0;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="e#12974#19880#0" expanded="false" />
             <element signature="n#script#19;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#20;n#body#0;n#html#0;n#!!top" expanded="false" />
+            <element signature="n#script#21;n#body#0;n#html#0;n#!!top" expanded="false" />
             <element signature="n#script#22;n#body#0;n#html#0;n#!!top" expanded="false" />
-            <element signature="e#26001#26912#0" expanded="false" />
-            <element signature="e#33008#40113#0" expanded="false" />
+            <element signature="e#33120#34031#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2278481">
+          <caret line="6" column="46" selection-start-line="6" selection-start-column="46" selection-end-line="6" selection-end-column="46" />
+          <folding />
         </state>
       </provider>
     </entry>
