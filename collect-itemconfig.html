@@ -352,7 +352,7 @@
         <td><@=data[i].remark@></td>
         <td>
             <!--<a data-toggle="modal" data-target="#myModal"><@=data[i].id@></a>-->
-            <a onclick="collectDetail('<@=data[i].id@>');"><@=data[i].id@></a>
+            <a onclick="getCollectById('<@=data[i].id@>');"><@=data[i].id@></a>
         </td>
         <td>
             <a onclick="deleteList('<@=data[i].id@>');" class="btn btn-success">删除</a>
@@ -361,120 +361,7 @@
     <@}@>
 
 </script>
-<script id="t2:table" type="text/html">
-    <@ for (var i = 0; i < data.length; i++){ @>
-    <@var item=data[i].collectMonitorItems;@>
-        <@ for (var j = 0; j < item.length; j++){ @>
-            <@if(item[j].indexOf("+")!=-1){@>
-                <@item[j]=item[j].replace("+","");@>
-            <option value="<@=item[j]@>">
-                <@if(item[j]=='use_cpu'){@>
-                cpu使用率
-                <@}@>
-                <@if(item[j]=='eth0_tx'){@>
-                eth0网卡出网速
-                <@}@>
-                <@if(item[j]=='ping_value'){@>
-                ping延时
-                <@}@>
-                <@if(item[j]=='mem_free'){@>
-                内存占用
-                <@}@>
-                <@if(item[j]=='mem_total'){@>
-                内存总大小
-                <@}@>
-                <@if(item[j]=='pix_percent'){@>
-                pix占比
-                <@}@>
-                <@if(item[j]=='pix_total'){@>
-                pix总大小
-                <@}@>
-                <@if(item[j]=='root_percent'){@>
-                根目录占比
-                <@}@>
-                <@if(item[j]=='root_total'){@>
-                根目录总大小
-                <@}@>
-                <@if(item[j]=='current_time'){@>
-                脚本执行时间
-                <@}@>
-                <@if(item[j]=='io_util'){@>
-                磁盘io使用率
-                <@}@>
-                <@if(item[j]=='raid_ok'){@>
-                raid卡是否正常
-                <@}@>
-                <@if(item[j]=='sys_uptime'){@>
-                系统开机时长
-                <@}@>
-                <@if(item[j]=='cpu_temp'){@>
-                cpu温度
-                <@}@>
-                <@if(item[j]=='eth0_rx'){@>
-                eth0网卡入网速
-                <@}@>
-            </option>
-        <@}@>
-        <@}@>
-    <@}@>
-</script>
-<script id="t3:table" type="text/html">
-    <@ for (var i = 0; i < data.length; i++){ @>
-    <@var item=data[i].collectMonitorItems;@>
-    <@ for (var j = 0; j < item.length; j++){ @>
-    <@if(item[j].indexOf("-")!=-1){@>
-    <@item[j]=item[j].replace("-","");@>
-    <option value="<@=item[j]@>">
-        <@if(item[j]=='use_cpu'){@>
-        cpu使用率
-        <@}@>
-        <@if(item[j]=='eth0_tx'){@>
-        eth0网卡出网速
-        <@}@>
-        <@if(item[j]=='ping_value'){@>
-        ping延时
-        <@}@>
-        <@if(item[j]=='mem_free'){@>
-        内存占用
-        <@}@>
-        <@if(item[j]=='mem_total'){@>
-        内存总大小
-        <@}@>
-        <@if(item[j]=='pix_percent'){@>
-        pix占比
-        <@}@>
-        <@if(item[j]=='pix_total'){@>
-        pix总大小
-        <@}@>
-        <@if(item[j]=='root_percent'){@>
-        根目录占比
-        <@}@>
-        <@if(item[j]=='root_total'){@>
-        根目录总大小
-        <@}@>
-        <@if(item[j]=='current_time'){@>
-        脚本执行时间
-        <@}@>
-        <@if(item[j]=='io_util'){@>
-        磁盘io使用率
-        <@}@>
-        <@if(item[j]=='raid_ok'){@>
-        raid卡是否正常
-        <@}@>
-        <@if(item[j]=='sys_uptime'){@>
-        系统开机时长
-        <@}@>
-        <@if(item[j]=='cpu_temp'){@>
-        cpu温度
-        <@}@>
-        <@if(item[j]=='eth0_rx'){@>
-        eth0网卡入网速
-        <@}@>
-    </option>
-    <@}@>
-    <@}@>
-    <@}@>
-</script>
+
 <script id="t1:table" type="text/html">
     <@for(var i=0;i< c_keyList.length ;i++){@>
         <@if(c_keyList[i]=='use_cpu'){@>
@@ -532,6 +419,117 @@
         <@if(s_keyList[i]=='sys_uptime'){@>
             <option value="<@=s_keyList[i]@>">系统开机时长</option>
         <@}@>
+    <@}@>
+</script>
+<script id="t2:table" type="text/html">
+    <@var item=data.collectMonitorItems;@>
+    <@@>
+    <@ for (var j = 0; j < item.length; j++){ @>
+    <@if(item[j].indexOf("+")!=-1){@>
+    <@item[j]=item[j].replace("+","");@>
+    <option value="<@=item[j]@>">
+        <@if(item[j]=='use_cpu'){@>
+        cpu使用率
+        <@}@>
+        <@if(item[j]=='eth0_tx'){@>
+        eth0网卡出网速
+        <@}@>
+        <@if(item[j]=='ping_value'){@>
+        ping延时
+        <@}@>
+        <@if(item[j]=='mem_free'){@>
+        内存占用
+        <@}@>
+        <@if(item[j]=='mem_total'){@>
+        内存总大小
+        <@}@>
+        <@if(item[j]=='pix_percent'){@>
+        pix占比
+        <@}@>
+        <@if(item[j]=='pix_total'){@>
+        pix总大小
+        <@}@>
+        <@if(item[j]=='root_percent'){@>
+        根目录占比
+        <@}@>
+        <@if(item[j]=='root_total'){@>
+        根目录总大小
+        <@}@>
+        <@if(item[j]=='current_time'){@>
+        脚本执行时间
+        <@}@>
+        <@if(item[j]=='io_util'){@>
+        磁盘io使用率
+        <@}@>
+        <@if(item[j]=='raid_ok'){@>
+        raid卡是否正常
+        <@}@>
+        <@if(item[j]=='sys_uptime'){@>
+        系统开机时长
+        <@}@>
+        <@if(item[j]=='cpu_temp'){@>
+        cpu温度
+        <@}@>
+        <@if(item[j]=='eth0_rx'){@>
+        eth0网卡入网速
+        <@}@>
+    </option>
+    <@}@>
+    <@}@>
+</script>
+<script id="t3:table" type="text/html">
+    <@var item=data.collectMonitorItems;@>
+    <@ for (var j = 0; j < item.length; j++){ @>
+    <@if(item[j].indexOf("-")!=-1){@>
+    <@item[j]=item[j].replace("-","");@>
+    <option value="<@=item[j]@>">
+        <@if(item[j]=='use_cpu'){@>
+        cpu使用率
+        <@}@>
+        <@if(item[j]=='eth0_tx'){@>
+        eth0网卡出网速
+        <@}@>
+        <@if(item[j]=='ping_value'){@>
+        ping延时
+        <@}@>
+        <@if(item[j]=='mem_free'){@>
+        内存占用
+        <@}@>
+        <@if(item[j]=='mem_total'){@>
+        内存总大小
+        <@}@>
+        <@if(item[j]=='pix_percent'){@>
+        pix占比
+        <@}@>
+        <@if(item[j]=='pix_total'){@>
+        pix总大小
+        <@}@>
+        <@if(item[j]=='root_percent'){@>
+        根目录占比
+        <@}@>
+        <@if(item[j]=='root_total'){@>
+        根目录总大小
+        <@}@>
+        <@if(item[j]=='current_time'){@>
+        脚本执行时间
+        <@}@>
+        <@if(item[j]=='io_util'){@>
+        磁盘io使用率
+        <@}@>
+        <@if(item[j]=='raid_ok'){@>
+        raid卡是否正常
+        <@}@>
+        <@if(item[j]=='sys_uptime'){@>
+        系统开机时长
+        <@}@>
+        <@if(item[j]=='cpu_temp'){@>
+        cpu温度
+        <@}@>
+        <@if(item[j]=='eth0_rx'){@>
+        eth0网卡入网速
+        <@}@>
+    </option>
+    <@}@>
     <@}@>
 </script>
 <script type="text/javascript">
@@ -712,30 +710,11 @@
             })
         }
         collectMonitorItems();
-    function collectDetail(conid){
-        /*$.get("http://192.168.0.217:6677//web/collectioncof/list;jsessionid="+jsessionid+"?pageNum="+1+'&size='+10,null, function(result){
-            console.log(result);
-            //alert(result);
-            var result = eval('('+result+')');
-            //$("#select2").html();
-            //console.log(result);
-            if(result.code==0){
-                var tableHtml2=bt('t2:table',result);
-                $('#select1').html();
-                $('#select1 ').html(tableHtml2);
-                var tableHtml3=bt('t3:table',result);
-                $('#select2').html();
-                $('#select2').html(tableHtml3);
-            }else{
-                alert('请求错误!');
-            }
-        });*/
-    }
+
     /*更新采集项*/
-    /*var str=encodeURIComponent('+edeee');
-    console.log(str);*/
     var collectAfter=[];
     var ops=[];
+    var remark;
     /*function updateCollect(){
         $("#select2 option").each(function(){
             ops.push($(this).val());
@@ -766,7 +745,7 @@
     }*/
     //http://192.168.0.217:6677//web/collectioncof/add?collectMonitorItems=1&remark=
     function addConfig(){
-        var remark=$("#remark").val();
+        remark=$("#remark").val();
         //+ 已监控
         $("#select1 option").each(function(){
             ops.push('+'+$(this).val());
@@ -824,6 +803,26 @@
         });
     }
     collectList(1,5);
+    /*通过ID获取某条采集项配置*/
+    function getCollectById(conid){
+        $.get("http://192.168.0.217:6677//web/collectioncof/"+conid+";jsessionid="+jsessionid,null, function(result){
+            console.log(result);
+            //alert(result);
+            var result = eval('('+result+')');
+            if(result.code==0){
+                //remark=result.data.remark;
+                $("#remark").val(result.data.remark);
+                var tableHtml2=bt('t2:table',result);
+                $('#select1').html();
+                $('#select1 ').html(tableHtml2);
+                var tableHtml3=bt('t3:table',result);
+                $('#select2').html();
+                $('#select2').html(tableHtml3);
+            }else{
+                alert('请求错误!');
+            }
+        });
+    }
     /*删除某项配置*/
     function deleteList(conid){//http://192.168.0.217:6677//web/collectioncof/del?id=
         if(confirm("确认要删除该项吗？")) {

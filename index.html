@@ -358,17 +358,18 @@
             pageCode="";
         return pageCode
     }
-    /*点击告警项跳转至详情页*/
+    /*跳转至详情页*/
     function toDetails(did){
         window.location.href = 'alarm-details.html?userName='+userName+';jsessionid='+jsessionid+':did='+did;
 
     }
     /*点击处理*/
     function handle(did){
-        var msg='111';
-        alert('处理原因：'+msg);
+
         if(confirm("确认要处理吗？")) {
-            $.post('http://192.168.0.217:6677//web/alarmlogs/' + did + ';jsessionid=' + jsessionid, null, function (result) {
+            var msg=prompt("处理原因：","111");
+            alert("处理原因："+msg);
+            $.post('http://192.168.0.217:6677//web/alarmlogs/' + did + ';jsessionid=' + jsessionid+'?info='+msg, null, function (result) {
                 var result = eval('(' + result + ')');
                 console.log(result.data);
                 if (result.code == 0) {
@@ -381,7 +382,6 @@
             })
         }
     }
-
 </script>
 </body>
 </html>
